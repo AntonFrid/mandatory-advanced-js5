@@ -37,8 +37,14 @@ class Header extends React.Component {
         </div>
         <div className="searchWrap">
           <form submit={this.onSubmit}>
-            <input type="text" value={ this.state.searchInput } onChange={ this.onChange } />
-            <input type="submit"></input>
+            <input className='search-box'
+              name='searchInput'
+              type="text"
+              placeholder='Search...'
+              value={ this.state.searchInput }
+              onChange={ this.onChange }
+            />
+            <input className='search-btn' type="submit" value='Search'/>
           </form>
         </div>
       </div>

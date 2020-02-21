@@ -1,5 +1,27 @@
 .content {
-  background-color: red;
+  background-color: #2c2f33;
   height: 85vh;
   flex-grow: 1;
+}
+
+.content table {
+  text-align: left;
+  width: 90%;
+  border-collapse: collapse;
+  color: lightblue;
+  margin-left: 30px;
+}
+
+.content th {
+  padding: 25px 10px;
+  font-size: 20px;
+}
+
+.content td {
+  padding: 25px 10px;
+}
+
+.content tbody > tr {
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
 }

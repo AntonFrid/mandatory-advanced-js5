@@ -1,9 +1,10 @@
 .header {
   height: 15vh;
-  background-color: blue;
+  background-color: #2c2f33;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  color: lightblue;
 }
 
 .titleWrap{
@@ -11,7 +12,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin-left: 5%;
+  margin-left: 40px;
 }
 
 .searchWrap{
@@ -20,4 +21,21 @@
   flex-direction: column;
   justify-content: center;
   margin-right: 5%;
+}
+
+.search-box {
+  outline: none;
+  border: none;
+  border-radius: 30px;
+  height: 25px;
+  padding-left: 10px;
+}
+
+.search-btn {
+  background-color: lightblue;
+  border: none;
+  border-radius: 30px;
+  height: 25px;
+  width: 70px;
+  margin-left: 10px;
 }

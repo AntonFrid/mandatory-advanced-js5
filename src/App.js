@@ -14,17 +14,19 @@ import './CSS/Filepanel.css';
 import Main from './components/Main.js';
 import Login from './components/Login.js';
 
-function App() {
-  return (
-    <Router>
-      <Route path='/login'>
-        <Login/>
-      </Route>
-      <Route exact path='/'>
-        <Main/>
-      </Route>
-    </Router>
-  );
+class App extends React.Component {
+  render() {
+    return (
+      <Router>
+        <Route path='/login'>
+          <Login/>
+        </Route>
+        <Route exact path='/'>
+          <Main/>
+        </Route>
+      </Router>
+    );
+  }
 }
 
 export default App;
