@@ -1,0 +1,16 @@
+.loginContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0px;
+    height: 100vh;
+    width: 100vw;
+    background-color: bisque;
+}
+
+.card {
+    height: 60vh;
+    width: 75vw;
+    border: 1px solid lightgray;
+    border-radius: 45px;
+}
