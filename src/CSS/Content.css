@@ -1,0 +1,5 @@
+.content {
+  background-color: red;
+  height: 85vh;
+  flex-grow: 1;
+}

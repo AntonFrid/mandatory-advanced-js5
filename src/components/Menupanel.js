@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dropbox } from 'dropbox';
-import { Router } from 'react-router-dom';
+import { Router, Link } from 'react-router-dom';
 
 class Menupanel extends React.Component {
   render() {

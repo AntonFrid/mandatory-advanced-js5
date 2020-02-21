@@ -1,8 +1,6 @@
-.main {
-  background-color: red;
-  height: 85vh;
-  min-width: 500px;
-  flex-grow: 1;
+.Main {
+  display: flex;
+  flex-direction: row;
 }
 
 .main-div{
