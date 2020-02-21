@@ -8,9 +8,44 @@
     background-color: bisque;
 }
 
+.loginTitle{
+    color: lightslategray;
+}
+
 .card {
-    height: 60vh;
-    width: 75vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 70vh;
+    width: 30vw;
     border: 1px solid lightgray;
-    border-radius: 45px;
+    border-radius: 20px;
+}
+
+.buttonStyle{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 4rem;
+    width: 20rem;
+    border-radius: 20px;
+    font-size: 1rem;
+    border: 1px solid lightslategray;
+    font-weight: bold;
+    background-image: url(../media/dropbox.jpg);
+
+
+}
+
+.userInput{
+    height: 3rem;
+    width: 15rem;
+    border: none;    
+    border-bottom: 2px solid lightslategray;
+    font-size: 1.5rem;    
+    padding-left: 1rem;
+    padding-bottom: 0rem;
+    background-color: bisque;
 }
