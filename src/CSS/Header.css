@@ -4,7 +4,7 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  color: lightblue;
+  color: #99aab5;
 }
 
 .titleWrap{
@@ -13,6 +13,7 @@
   flex-direction: column;
   justify-content: center;
   margin-left: 40px;
+  font-size: 20px;
 }
 
 .searchWrap{
@@ -28,14 +29,23 @@
   border: none;
   border-radius: 30px;
   height: 25px;
+  width: 70px;
   padding-left: 10px;
+  transition: 0.25s;
+}
+
+.search-box:focus {
+  transition: 0.25s;
+  width: 200px;
 }
 
 .search-btn {
-  background-color: lightblue;
+  outline: none;
+  background-color: #7289da;
   border: none;
   border-radius: 30px;
   height: 25px;
   width: 70px;
   margin-left: 10px;
+  color: white;
 }
