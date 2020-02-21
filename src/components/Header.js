@@ -1,5 +1,4 @@
 import React from 'react';
-import SearchField from "react-search-field";
 import { Dropbox } from 'dropbox';
 import { Router } from 'react-router-dom';
 
@@ -14,6 +13,7 @@ class Header extends React.Component {
     }
 
     this.onChange = this.onChange.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
   }
 
   onChange(e){
@@ -24,14 +24,23 @@ class Header extends React.Component {
     })
   }
 
+  onSubmit(e){
+    e.preventDefault();
+    console.log(e.target.value);
+  }
+
   render() {
     return (
-      <div className='header'>
-        <SearchField
-          placeholder="Search..."
-          onChange={this.onChange}
-          classNames="test-class"
-        />
+      <div className="header">
+        <div className="titleWrap">
+          <h2>Dropbox</h2>
+        </div>
+        <div className="searchWrap">
+          <form submit={this.onSubmit}>
+            <input type="text" value={ this.state.searchInput } onChange={ this.onChange } />
+            <input type="submit"></input>
+          </form>
+        </div>
       </div>
     );
   }

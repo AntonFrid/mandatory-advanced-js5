@@ -1,0 +1,23 @@
+.header {
+  height: 15vh;
+  background-color: blue;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.titleWrap{
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 5%;
+}
+
+.searchWrap{
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-right: 5%;
+}

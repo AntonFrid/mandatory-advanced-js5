@@ -1,0 +1,14 @@
+.main {
+  background-color: red;
+  height: 85vh;
+  min-width: 500px;
+  flex-grow: 1;
+}
+
+.main-div{
+  flex-grow: 1;
+}
+
+.inner-main-div {
+  display: flex;
+}
