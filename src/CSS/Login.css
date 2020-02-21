@@ -5,11 +5,12 @@
     margin: 0px;
     height: 100vh;
     width: 100vw;
-    background-color: bisque;
+    background-color:#EAE7DC;
 }
 
 .loginTitle{
-    color: lightslategray;
+    color: #E85A4F;
+    font-size: 4rem;
 }
 
 .card {
@@ -19,8 +20,9 @@
     align-items: center;
     height: 70vh;
     width: 30vw;
-    border: 1px solid lightgray;
+    border: 1px solid #8E8D8A;
     border-radius: 20px;
+    background-color: #D8C3A5;
 }
 
 .buttonStyle{
@@ -29,23 +31,12 @@
     justify-content: center;
     align-items: center;
     height: 4rem;
-    width: 20rem;
+    width: 15rem;
     border-radius: 20px;
     font-size: 1rem;
-    border: 1px solid lightslategray;
+    border: 1px solid #8E8D8A;
     font-weight: bold;
-    background-image: url(../media/dropbox.jpeg);
-
-
-}
-
-.userInput{
-    height: 3rem;
-    width: 15rem;
-    border: none;    
-    border-bottom: 2px solid lightslategray;
-    font-size: 1.5rem;    
-    padding-left: 1rem;
-    padding-bottom: 0rem;
-    background-color: bisque;
+    background-image: url(../media/dropbox1.png);
+    background-position: center;
+    background-size: cover;
 }

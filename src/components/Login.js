@@ -8,7 +8,8 @@ export class Login extends Component {
                     <h1 className = 'loginTitle'>
                         Login
                      </h1>
-                    <button className = 'buttonStyle'></button>
+                    <button className = 'buttonStyle'>
+                        </button>
                 </div>
             </div>
         )
