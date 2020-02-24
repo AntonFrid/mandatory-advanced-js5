@@ -17,11 +17,21 @@ class Content extends React.Component {
 
     this.sub = token$.subscribe((token) => this.setState({ token }));
 
-    dbx.filesListFolder({ path: '' })
+    dbx.filesListFolder({ path: this.props.path })
       .then(response => {
-        console.log(response.entries);
         this.setState({ userFiles: response.entries })
       });
+  }
+
+  componentDidUpdate(prevProps) {
+    if(prevProps.path !== this.props.path){
+      let dbx = new Dropbox({ accessToken: this.state.token });
+
+      dbx.filesListFolder({ path: this.props.path })
+        .then(response => {
+          this.setState({ userFiles: response.entries })
+        });
+    }
   }
 
   componentWillUnmount() {
@@ -30,11 +40,11 @@ class Content extends React.Component {
 
   renderTableData() {
     return this.state.userFiles.map((object , index) => {
-      const { id, name } = object;
+      const { id, name, path_lower } = object;
       const tag = object[".tag"];
 
       return (
-        <tr key={ id }>
+        <tr key={ id } onClick={ () => this.props.rowOnClick(path_lower, tag) }>
           <td>{ tag }</td>
           <td>{ name }</td>
         </tr>

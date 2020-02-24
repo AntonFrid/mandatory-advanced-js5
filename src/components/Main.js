@@ -14,7 +14,9 @@ class Main extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = ({ token: token$.value });
+    this.state = ({ token: token$.value, path: '' });
+
+    this.changePath = this.changePath.bind(this);
   }
 
   componentDidMount() {
@@ -23,6 +25,13 @@ class Main extends React.Component {
 
   componentWillUnmount() {
     this.sub.unsubscribe();
+  }
+
+  changePath(path, tag) {
+    console.log(path, tag);
+    if(tag === 'folder') {
+      this.setState({ path: path });
+    }
   }
 
   render() {
@@ -35,9 +44,9 @@ class Main extends React.Component {
       <div className="Main">
         <Menupanel/>
         <div className='main-div'>
-          <Header/>
+          <Header path={ this.state.path } homeOnClick={ this.changePath }/>
           <div className='inner-main-div'>
-            <Content/>
+            <Content path={ this.state.path } rowOnClick={ this.changePath }/>
             <Filepanel/>
           </div>
         </div>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Dropbox } from 'dropbox';
 import { Router } from 'react-router-dom';
+import { token$ } from '../store.js';
 
 
 
@@ -8,12 +9,18 @@ class Header extends React.Component {
   constructor(props){
     super(props)
 
-    this.state = {
-      searchInput: "",
-    }
+    this.state = { searchInput: "" }
 
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+  }
+
+  componentDidMount() {
+    this.sub = token$.subscribe((token) => this.setState({ token }));
+  }
+
+  componentWillUnmount() {
+    this.sub.unsubscribe();
   }
 
   onChange(e){
@@ -26,14 +33,15 @@ class Header extends React.Component {
 
   onSubmit(e){
     e.preventDefault();
-    console.log(e.target.value);
   }
 
   render() {
     return (
       <div className="header">
         <div className="titleWrap">
-          <h2>Dropbox</h2>
+          <h2 onClick={ () => this.props.homeOnClick('', 'folder') }>
+            { this.props.path === '' ? 'Home': 'Home' + this.props.path.replace(/\//g, ' < ') }
+          </h2>
         </div>
         <div className="searchWrap">
           <form onSubmit={ this.onSubmit }>
