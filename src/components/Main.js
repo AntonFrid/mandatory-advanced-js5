@@ -14,7 +14,10 @@ class Main extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = ({ token: token$.value, path: '' });
+    this.state = ({
+       token: token$.value,
+       path: window.location.pathname.replace('/main', '')
+    });
 
     this.changePath = this.changePath.bind(this);
   }
@@ -28,14 +31,13 @@ class Main extends React.Component {
   }
 
   changePath(path, tag) {
-    console.log(path, tag);
     if(tag === 'folder') {
+      window.location.pathname = '/main' + path;
       this.setState({ path: path });
     }
   }
 
   render() {
-
     if(!this.state.token) {
       return <Redirect to='/'/>
     }

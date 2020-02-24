@@ -17,7 +17,7 @@ class Content extends React.Component {
 
     this.sub = token$.subscribe((token) => this.setState({ token }));
 
-    dbx.filesListFolder({ path: this.props.path })
+    dbx.filesListFolder({ path: window.location.pathname.replace('/main', '') })
       .then(response => {
         this.setState({ userFiles: response.entries })
       });
@@ -27,7 +27,7 @@ class Content extends React.Component {
     if(prevProps.path !== this.props.path){
       let dbx = new Dropbox({ accessToken: this.state.token });
 
-      dbx.filesListFolder({ path: this.props.path })
+      dbx.filesListFolder({ path: window.location.pathname.replace('/main', '') })
         .then(response => {
           this.setState({ userFiles: response.entries })
         });

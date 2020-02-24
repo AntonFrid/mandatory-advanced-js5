@@ -40,7 +40,7 @@ class App extends React.Component {
         <Route path='/auth'>
           <Auth />
         </Route>
-        <Route exact path='/main'>
+        <Route path='/main'>
           <Main/>
         </Route>
       </Router>
