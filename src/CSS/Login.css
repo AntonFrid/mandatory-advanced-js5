@@ -36,7 +36,7 @@
     font-size: 1rem;
     border: 1px solid #8E8D8A;
     font-weight: bold;
-    background-image: url(/media/dropbox1.png);
+    background-image: url(../media/dropbox1.png);
     background-position: center;
     background-size: cover;
 }
