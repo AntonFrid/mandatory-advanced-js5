@@ -2,4 +2,16 @@
   height: 100vh;
   width: 240px;
   background-color: #23272a;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#logo{
+  max-width: 130px;
+  margin-top: 15%;
+}
+
+#logoText{
+  max-width: 50px;
 }
