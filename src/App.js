@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Link, BrowserRouter as Router } from 'react-router-dom';
+import { Route, BrowserRouter as Router, Redirect } from 'react-router-dom';
 import { token$ } from './store.js';
 
 //CSS.
@@ -20,7 +20,9 @@ class App extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = ({ token: token$.value });
+    this.state = ({ token: token$.value, path: window.location.pathname.replace('/main', '') });
+
+    this.changePath = this.changePath.bind(this);
   }
 
   componentDidMount() {
@@ -31,9 +33,15 @@ class App extends React.Component {
     this.sub.unsubscribe();
   }
 
+  changePath(path) {
+    this.setState({ path: path });
+  }
+
   render() {
     return (
       <Router>
+        { this.state.path !== '' ? <Redirect to={ '/main' + this.state.path }/>:
+          <Redirect to='/main'/> }
         <Route exact path='/'>
           { this.state.token ? <Main/>: <Login/> }
         </Route>
@@ -41,7 +49,7 @@ class App extends React.Component {
           <Auth />
         </Route>
         <Route path='/main'>
-          <Main/>
+          <Main changePath={ this.changePath }/>
         </Route>
       </Router>
     );

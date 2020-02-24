@@ -1,6 +1,5 @@
 import React from 'react';
-import { Dropbox } from 'dropbox';
-import { Router, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { token$ } from '../store.js';
 
 //Components.
@@ -32,8 +31,8 @@ class Main extends React.Component {
 
   changePath(path, tag) {
     if(tag === 'folder') {
-      window.location.pathname = '/main' + path;
       this.setState({ path: path });
+      this.props.changePath(path);
     }
   }
 

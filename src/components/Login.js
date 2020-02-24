@@ -4,9 +4,7 @@ import { Dropbox } from 'dropbox';
 export class Login extends Component {
 
   onClick() {
-    const dbx = new Dropbox ({
-      clientId: 'nde773rwdsvw6mc'
-    });
+    const dbx = new Dropbox ({ fetch, clientId: 'nde773rwdsvw6mc' });
 
     const url = dbx.getAuthenticationUrl("http://localhost:3000/auth");
 

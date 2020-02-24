@@ -1,8 +1,4 @@
 import React from 'react';
-import { Dropbox } from 'dropbox';
-import { Router } from 'react-router-dom';
-
-
 
 class Header extends React.Component {
   constructor(props){

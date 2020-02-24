@@ -1,6 +1,5 @@
 import React from 'react';
 import { Dropbox } from 'dropbox';
-import { Router } from 'react-router-dom';
 import { token$ } from '../store.js';
 
 class Content extends React.Component {
@@ -13,7 +12,7 @@ class Content extends React.Component {
   }
 
   componentDidMount() {
-    let dbx = new Dropbox({ accessToken: this.state.token });
+    let dbx = new Dropbox({ fetch, accessToken: this.state.token });
 
     this.sub = token$.subscribe((token) => this.setState({ token }));
 
@@ -25,7 +24,7 @@ class Content extends React.Component {
 
   componentDidUpdate(prevProps) {
     if(prevProps.path !== this.props.path){
-      let dbx = new Dropbox({ accessToken: this.state.token });
+      let dbx = new Dropbox({ fetch, accessToken: this.state.token });
 
       dbx.filesListFolder({ path: window.location.pathname.replace('/main', '') })
         .then(response => {

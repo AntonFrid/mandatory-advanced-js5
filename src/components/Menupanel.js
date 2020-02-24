@@ -1,6 +1,5 @@
 import React from 'react';
 import { Dropbox } from 'dropbox';
-import { Router, Link } from 'react-router-dom';
 import { updateToken, token$ } from '../store.js';
 
 class Menupanel extends React.Component {
@@ -13,7 +12,7 @@ class Menupanel extends React.Component {
   componentDidMount() {
     this.sub = token$.subscribe((token) => this.setState({ token }));
 
-    const dbx = new Dropbox({ accessToken: this.state.token });
+    const dbx = new Dropbox({ fetch, accessToken: this.state.token });
 
     dbx.usersGetCurrentAccount()
       .then(res => {
