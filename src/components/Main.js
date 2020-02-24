@@ -11,9 +11,23 @@ import Menupanel from './Menupanel.js';
 
 
 class Main extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = ({ token: token$.value });
+  }
+
+  componentDidMount() {
+    this.sub = token$.subscribe((token) => this.setState({ token }));
+  }
+
+  componentWillUnmount() {
+    this.sub.unsubscribe();
+  }
+
   render() {
 
-    if(!token$.value) {
+    if(!this.state.token) {
       return <Redirect to='/'/>
     }
 

@@ -13,7 +13,19 @@ class Content extends React.Component {
   }
 
   componentDidMount() {
-    this.subscription = token$.subscribe((token) => this.setState({ token }));
+    let dbx = new Dropbox({ accessToken: this.state.token });
+
+    this.sub = token$.subscribe((token) => this.setState({ token }));
+
+    dbx.filesListFolder({ path: '' })
+      .then(response => {
+        console.log(response.entries);
+        this.setState({ userFiles: response.entries })
+      });
+  }
+
+  componentWillUnmount() {
+    this.sub.unsubscribe();
   }
 
   renderTableData() {
@@ -30,15 +42,6 @@ class Content extends React.Component {
     });
   }
 
-  componentDidMount() {
-    let dbx = new Dropbox({ accessToken: this.state.token });
-
-    dbx.filesListFolder({ path: '' })
-      .then(response => {
-        console.log(response.entries);
-        this.setState({ userFiles: response.entries })
-      });
-  }
 
   render() {
     return (

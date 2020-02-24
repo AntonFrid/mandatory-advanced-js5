@@ -4,27 +4,24 @@ import { Dropbox } from 'dropbox';
 export class Login extends Component {
 
   onClick() {
-      const dbx = new Dropbox ({
-          clientId: 'nde773rwdsvw6mc'
-      })
+    const dbx = new Dropbox ({
+      clientId: 'nde773rwdsvw6mc'
+    });
 
-      const url = dbx.getAuthenticationUrl("http://localhost:3000/auth");
+    const url = dbx.getAuthenticationUrl("http://localhost:3000/auth");
 
-      window.location.href = url;
-      console.log(url);
+    window.location.href = url;
   }
 
   render() {
-
-
     return (
       <div className='loginContainer'>
-        <div className= 'card'>
+        <div className='card'>
           <h1 className='loginTitle'>Login</h1>
-          <button onClick={this.onClick} className='buttonStyle'></button>
+          <button onClick={ this.onClick } className='buttonStyle'></button>
         </div>
       </div>
-    )
+    );
   }
 }
 

@@ -17,11 +17,25 @@ import Login from './components/Login.js';
 import Auth from './components/Auth.js'
 
 class App extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = ({ token: token$.value });
+  }
+
+  componentDidMount() {
+    this.sub = token$.subscribe((token) => this.setState({ token }));
+  }
+
+  componentWillUnmount() {
+    this.sub.unsubscribe();
+  }
+
   render() {
     return (
       <Router>
         <Route exact path='/'>
-          { token$.value ? <Main/>: <Login/> }
+          { this.state.token ? <Main/>: <Login/> }
         </Route>
         <Route path='/auth'>
           <Auth />

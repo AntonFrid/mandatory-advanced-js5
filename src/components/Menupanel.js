@@ -1,17 +1,12 @@
 import React from 'react';
 import { Dropbox } from 'dropbox';
 import { Router, Link } from 'react-router-dom';
+import { updateToken } from '../store.js';
 
 class Menupanel extends React.Component {
-  constructor(props){
-    super(props)
-
-
-  }
-
   logOut(){
     console.log("logged out");
-    
+    updateToken(null);
   }
 
   render() {

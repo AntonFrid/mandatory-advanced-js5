@@ -36,7 +36,7 @@ class Header extends React.Component {
           <h2>Dropbox</h2>
         </div>
         <div className="searchWrap">
-          <form submit={this.onSubmit}>
+          <form onSubmit={ this.onSubmit }>
             <input className='search-box'
               name='searchInput'
               type="text"

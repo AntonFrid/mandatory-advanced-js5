@@ -3,12 +3,6 @@ import { Redirect } from 'react-router-dom';
 import { token$, updateToken } from '../store.js';
 
 export class Auth extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = ({});
-  }
-
   componentDidMount(){
     if(token$.value === null) {
       const string = window.location.hash;
@@ -19,7 +13,7 @@ export class Auth extends Component {
       let token = newArray[0]
 
       updateToken(token);
-      this.setState({});
+      this.forceUpdate();
     }
   }
 
