@@ -1,7 +1,6 @@
 import React from 'react';
 import { Dropbox } from 'dropbox';
 import { Router } from 'react-router-dom';
-import { token$ } from '../store.js';
 
 
 
@@ -13,14 +12,6 @@ class Header extends React.Component {
 
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
-  }
-
-  componentDidMount() {
-    this.sub = token$.subscribe((token) => this.setState({ token }));
-  }
-
-  componentWillUnmount() {
-    this.sub.unsubscribe();
   }
 
   onChange(e){
