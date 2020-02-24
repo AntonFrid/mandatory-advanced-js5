@@ -13,6 +13,7 @@ import './CSS/Filepanel.css';
 //Components.
 import Main from './components/Main.js';
 import Login from './components/Login.js';
+import Auth from './components/Auth.js'
 
 class App extends React.Component {
   render() {
@@ -20,6 +21,9 @@ class App extends React.Component {
       <Router>
         <Route path='/login'>
           <Login/>
+        </Route>
+        <Route path='/auth'>
+          <Auth />
         </Route>
         <Route exact path='/'>
           <Main/>
