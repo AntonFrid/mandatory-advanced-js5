@@ -1,14 +1,19 @@
 import React from 'react';
 import { Dropbox } from 'dropbox';
 import { Router } from 'react-router-dom';
+import { token$ } from '../store.js';
 
 class Content extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = ({ userFiles: [] });
+    this.state = ({ userFiles: [], token: token$.value });
 
     this.renderTableData = this.renderTableData.bind(this);
+  }
+
+  componentDidMount() {
+    this.subscription = token$.subscribe((token) => this.setState({ token }));
   }
 
   renderTableData() {
@@ -26,7 +31,7 @@ class Content extends React.Component {
   }
 
   componentDidMount() {
-    let dbx = new Dropbox({ accessToken: 'bwP84gjlqOAAAAAAAAAAE1VcL8524F1y2jDhuCBb-pKbaqfpYD2OQMVfGLby6pS1' });
+    let dbx = new Dropbox({ accessToken: this.state.token });
 
     dbx.filesListFolder({ path: '' })
       .then(response => {

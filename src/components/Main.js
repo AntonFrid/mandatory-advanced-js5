@@ -1,6 +1,7 @@
 import React from 'react';
 import { Dropbox } from 'dropbox';
-import { Router } from 'react-router-dom';
+import { Router, Redirect } from 'react-router-dom';
+import { token$ } from '../store.js';
 
 //Components.
 import Content from './Content.js';
@@ -11,6 +12,11 @@ import Menupanel from './Menupanel.js';
 
 class Main extends React.Component {
   render() {
+
+    if(!token$.value) {
+      return <Redirect to='/'/>
+    }
+
     return (
       <div className="Main">
         <Menupanel/>

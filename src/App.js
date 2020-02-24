@@ -1,5 +1,6 @@
 import React from 'react';
 import { Route, Link, BrowserRouter as Router } from 'react-router-dom';
+import { token$ } from './store.js';
 
 //CSS.
 import './App.css';
@@ -19,13 +20,13 @@ class App extends React.Component {
   render() {
     return (
       <Router>
-        <Route path='/login'>
-          <Login/>
+        <Route exact path='/'>
+          { token$.value ? <Main/>: <Login/> }
         </Route>
         <Route path='/auth'>
           <Auth />
         </Route>
-        <Route exact path='/'>
+        <Route exact path='/main'>
           <Main/>
         </Route>
       </Router>

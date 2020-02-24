@@ -12,7 +12,8 @@
     "react-native-paper": "^3.6.0",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.0",
-    "react-search-field": "^1.0.0"
+    "react-search-field": "^1.0.0",
+    "rxjs": "^6.5.4"
   },
   "scripts": {
     "start": "react-scripts start",
