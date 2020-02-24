@@ -1,11 +1,31 @@
 import React from 'react';
 import { Dropbox } from 'dropbox';
 import { Router, Link } from 'react-router-dom';
-import { updateToken } from '../store.js';
+import { updateToken, token$ } from '../store.js';
 
 class Menupanel extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = ({ username: null, token: token$.value });
+  }
+
+  componentDidMount() {
+    this.sub = token$.subscribe((token) => this.setState({ token }));
+
+    const dbx = new Dropbox({ accessToken: this.state.token });
+
+    dbx.usersGetCurrentAccount()
+      .then(res => {
+        this.setState({ username: res.name.display_name});
+      });
+  }
+
+  componentWillUnmount() {
+    this.sub.unsubscribe();
+  }
+
   logOut(){
-    console.log("logged out");
     updateToken(null);
   }
 
@@ -14,8 +34,8 @@ class Menupanel extends React.Component {
       <div className='menupanel'>
         <img src="/media/icon_text.png" alt="logo" className="logo"/>
         <div className="menupanelBottom">
-          <h3 className="mpUserName">USER</h3>
-          <button className="logout-btn" onClick={this.logOut}>Logout</button>
+          <h3 className="mpUserName">{ this.state.username }</h3>
+          <button className="logout-btn" onClick={ this.logOut }>Logout</button>
         </div>
       </div>
     );
