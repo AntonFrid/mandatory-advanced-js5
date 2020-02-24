@@ -29,14 +29,14 @@
   border: none;
   border-radius: 30px;
   height: 25px;
-  width: 70px;
-  padding-left: 10px;
+  width: 150px;
+  padding-left: 15px;
   transition: 0.25s;
 }
 
 .search-box:focus {
   transition: 0.25s;
-  width: 200px;
+  width: 450px;
 }
 
 .search-btn {
@@ -48,4 +48,9 @@
   width: 70px;
   margin-left: 10px;
   color: white;
+  cursor: pointer;
+}
+
+.search-btn:hover {
+  background-color: #99aab5;
 }

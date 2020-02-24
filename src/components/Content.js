@@ -26,7 +26,7 @@ class Content extends React.Component {
   }
 
   componentDidMount() {
-    let dbx = new Dropbox({ accessToken: 'bwP84gjlqOAAAAAAAAAAEK3IB_EBa0AGZq5VdP0BN5rifT3WKboTpWsN84c4VQBW' })
+    let dbx = new Dropbox({ accessToken: 'bwP84gjlqOAAAAAAAAAAEtigB6zeAdIIAPWiya-XwznJ9MxR4y450DQfz94wLFCc' })
 
     dbx.filesListFolder({ path: '' })
       .then(response => {
