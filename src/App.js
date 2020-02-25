@@ -40,10 +40,10 @@ class App extends React.Component {
   render() {
     return (
       <Router>
-        { this.state.path !== '' ? <Redirect to={ '/main' + this.state.path }/>:
-          <Redirect to='/main'/> }
+        { this.state.path !== '/auth' ? this.state.path !== '' ? <Redirect to={ '/main' + this.state.path }/>:
+          <Redirect to='/main'/>: null }
         <Route exact path='/'>
-          { this.state.token ? <Main/>: <Login/> }
+          { this.state.token ? <Redirect to='/main'/>: <Login/> }
         </Route>
         <Route path='/auth'>
           <Auth />
