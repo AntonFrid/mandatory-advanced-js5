@@ -48,7 +48,7 @@ class Main extends React.Component {
           <Header path={ this.state.path } homeOnClick={ this.changePath }/>
           <div className='inner-main-div'>
             <Content path={ this.state.path } rowOnClick={ this.changePath }/>
-            <Filepanel/>
+            <Filepanel path={ this.state.path }/>
           </div>
         </div>
       </div>
