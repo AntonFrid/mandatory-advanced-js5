@@ -63,7 +63,7 @@ class Dropdown extends React.Component {
   render() {
     return (
       <div className='dropdown'>
-        <button onClick={ this.showMenu }>Show menu</button>
+        <button onClick={ this.showMenu }><p>...</p></button>
         { this.state.showMenu ? (
           <div className='dropdown-menu'>
             <button onClick={ this.onClickDownload }>Download</button>

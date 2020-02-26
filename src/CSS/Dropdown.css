@@ -1,0 +1,47 @@
+.dropdown > button {
+  background: none;
+  border: none;
+  border: 1px solid white;
+  border-radius: 6px;
+  color: white;
+  outline: none;
+  height: 30px;
+  width: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.10s;
+}
+
+.dropdown > button > p {
+  font-size: 25px;
+  margin-top: -14px;
+  font-weight: 300;
+}
+
+.dropdown > button:hover {
+  border: 2px solid #7289da;
+  transition: 0.10s;
+}
+
+.dropdown > button:focus {
+  border: 2px solid #7289da;
+  color: #7289da;
+  transition: 0.10s;
+}
+
+.dropdown-menu {
+  background-color: #23272a;
+  border: 2px solid #7289da;
+  border-radius: 6px;
+  transition: 0.10s;
+  margin-top: 2px;
+}
+
+.dropdown-menu > button {
+  background: none;
+  border: none;
+  color: white;
+  padding-bottom: 2px;
+  padding-left: 4px;
+}
