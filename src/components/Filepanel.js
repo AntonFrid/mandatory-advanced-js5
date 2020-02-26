@@ -18,7 +18,6 @@ class Filepanel extends React.Component {
     this.createNewFolder = this.createNewFolder.bind(this);
     this.onChange = this.onChange.bind(this);
     this.showForm = this.showForm.bind(this);
-    this.hideForm = this.hideForm.bind(this);
   }
 
   componentDidMount() {
@@ -66,20 +65,10 @@ class Filepanel extends React.Component {
     e.preventDefault();
 
     if (this.state.folderForm === "none") {
-      this.setState({ folderForm: "block" }, () => {
-        document.addEventListener( 'click', this.hideForm);
-      })
+      this.setState({ folderForm: "block" })
     }else{
-      this.setState({ folderForm: "none" }, () => {
-        document.removeEventListener('click', this.hideForm);
-      })
+      this.setState({ folderForm: "none" })
     }
-  }
-
-  hideForm() {
-    this.setState({ folderForm: "none" }, () => {
-      document.removeEventListener('click', this.hideForm);
-    })
   }
 
   render() {
