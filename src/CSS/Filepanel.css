@@ -29,3 +29,46 @@
 .filepanel li:hover {
   color: #99aab5;
 }
+
+label{
+  cursor: pointer;
+}
+
+#uploadFileValue{
+  display: none;
+}
+
+.uploadInput{
+  outline: none;
+  border: none;
+  border-radius: 30px;
+  height: 25px;
+  width: 150px;
+  padding-left: 15px;
+  transition: 0.25s;
+}
+
+.uploadSubmit{
+  outline: none;
+  background-color: #7289da;
+  border: none;
+  border-radius: 30px;
+  height: 25px;
+  width: 70px;
+  margin-left: 10px;
+  color: white;
+  cursor: pointer;
+}
+
+.uploadSubmit:hover{
+  background-color: #99aab5;
+}
+
+.uploadFormBlock{
+  display: block;
+  margin: 10px;
+}
+
+.uploadFormNone{
+  display: none;
+}
