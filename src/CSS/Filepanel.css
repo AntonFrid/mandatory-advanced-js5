@@ -1,5 +1,6 @@
 .filepanel {
   height: 85vh;
+  min-height: 555px;
   width: 300px;
   background-color: #2c2f33;
 }

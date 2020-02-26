@@ -1,5 +1,6 @@
 .menupanel {
   height: 100vh;
+  min-height: 650px;
   width: 240px;
   background-color: #23272a;
   display: flex;
