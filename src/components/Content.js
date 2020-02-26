@@ -1,6 +1,7 @@
 import React from 'react';
 import { Dropbox } from 'dropbox';
 import { token$ } from '../store.js';
+import Dropdown from './Dropdown.js';
 
 class Content extends React.Component {
   constructor(props) {
@@ -9,6 +10,7 @@ class Content extends React.Component {
     this.state = ({ userFiles: [], token: token$.value });
 
     this.renderTableData = this.renderTableData.bind(this);
+    this.onDelete = this.onDelete.bind(this);
   }
 
   componentDidMount() {
@@ -37,15 +39,31 @@ class Content extends React.Component {
     this.sub.unsubscribe();
   }
 
+  onDelete(id) {
+    this.setState({
+      userFiles: this.state.userFiles.filter((file) => {
+        return file.id !== id;
+      })
+    })
+  }
+
   renderTableData() {
     return this.state.userFiles.map((object , index) => {
       const { id, name, path_lower } = object;
       const tag = object[".tag"];
-
+      console.log(path_lower);
       return (
-        <tr key={ id } onClick={ () => this.props.rowOnClick(path_lower, tag) }>
+        <tr key={ id }>
           <td>{ tag }</td>
-          <td>{ name }</td>
+          <td onClick={ () => this.props.rowOnClick(path_lower, tag) }>{ name }</td>
+          <td><Dropdown
+            fileAtt={ {
+              id: id,
+              path: path_lower,
+              name: name
+            } }
+            onDelete={ this.onDelete }
+          /></td>
         </tr>
       );
     });
