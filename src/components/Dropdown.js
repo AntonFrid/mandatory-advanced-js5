@@ -43,13 +43,16 @@ class Dropdown extends React.Component {
   }
 
   onClickDownload() {
-    let dbx = new Dropbox({ accessToken: this.state.token });
+    let dbx = new Dropbox({ fetch, accessToken: this.state.token });
 
-    dbx.filesDownload({ path: this.props.fileAtt.path });
+    dbx.filesGetTemporaryLink({ path: this.props.fileAtt.path })
+      .then((res) => {
+        window.location.href = res.link;
+      })
   }
 
   onClickDelete() {
-    let dbx = new Dropbox({ accessToken: this.state.token });
+    let dbx = new Dropbox({ fetch, accessToken: this.state.token });
 
     dbx.filesDeleteV2({ path: this.props.fileAtt.path })
       .then(() => {
