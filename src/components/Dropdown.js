@@ -49,6 +49,8 @@ class Dropdown extends React.Component {
       .then((res) => {
         window.location.href = res.link;
       })
+
+    this.refs.dropBtn.blur();
   }
 
   onClickDelete() {
@@ -58,12 +60,14 @@ class Dropdown extends React.Component {
       .then(() => {
         this.props.onDelete(this.props.fileAtt.id);
       })
+
+    this.refs.dropBtn.blur();  
   }
 
   render() {
     return (
       <div className='dropdown'>
-        <button onClick={ this.showMenu }><p>...</p></button>
+        <button ref='dropBtn' onClick={ this.showMenu }><p>...</p></button>
         { this.state.showMenu ? (
           <div className='dropdown-menu'>
             <button onClick={ this.onClickDownload }>Download</button>

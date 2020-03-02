@@ -6,6 +6,15 @@
   overflow-y: auto;
 }
 
+.content {
+  -ms-overflow-style: none;
+  overflow: -moz-scrollbars-none;
+}
+
+.content::-webkit-scrollbar {
+  display: none;
+}
+
 .content table {
   text-align: left;
   width: 93%;

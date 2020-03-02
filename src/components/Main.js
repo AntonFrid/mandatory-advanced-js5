@@ -23,6 +23,7 @@ class Main extends React.Component {
 
     this.changePath = this.changePath.bind(this);
     this.searchResults = this.searchResults.bind(this);
+    this.closeSearch = this.closeSearch.bind(this);
   }
 
   componentDidMount() {
@@ -50,8 +51,8 @@ class Main extends React.Component {
     }
   }
 
-  searchCancel(){
-
+  closeSearch(){
+    this.setState({ searchState: false });
   }
 
   render() {
@@ -63,7 +64,12 @@ class Main extends React.Component {
       <div className="Main">
         <Menupanel/>
         <div className='main-div'>
-          <Header path={ this.state.path } homeOnClick={ this.changePath } searchResults={ this.searchResults } />
+          <Header
+            path={ this.state.path }
+            hierarchyOnClick={ this.changePath }
+            searchResults={ this.searchResults }
+            closeSearch={ this.closeSearch }
+            searchState={ this.state.searchState } />
           <div className='inner-main-div'>
             { this.state.searchState
               ? <Search

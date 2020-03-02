@@ -31,6 +31,7 @@ class Content extends React.Component {
 
       dbx.filesListFolder({ path: window.location.pathname.replace('/main', '') })
         .then(response => {
+          this.getThumb(response.entries);
           this.setState({ userFiles: response.entries })
         });
     }
@@ -91,6 +92,7 @@ class Content extends React.Component {
         server_modified,
         size
       } = object;
+
       const tag = object[".tag"];
 
       return (

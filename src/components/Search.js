@@ -7,7 +7,7 @@ class Search extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = ({ userFiles: [], token: token$.value });
+    this.state = ({ userFiles: [], token: token$.value, thumbnails: {} });
 
     this.renderTableData = this.renderTableData.bind(this);
     this.onDelete = this.onDelete.bind(this);
@@ -20,7 +20,7 @@ class Search extends React.Component {
 
     dbx.filesSearch({ path: "", query: this.props.searchInput })
     .then((result) => {
-      console.log(result.matches);
+      this.getThumb(result.matches.map(x => x.metadata));
       this.setState({ userFiles: result.matches.map(x => x.metadata) });
     })
   }
@@ -31,7 +31,7 @@ class Search extends React.Component {
 
       dbx.filesSearch({ path: "", query: this.props.searchInput })
       .then((result) => {
-        console.log(result.matches);
+        this.getThumb(result.matches.map(x => x.metadata));
         this.setState({ userFiles: result.matches.map(x => x.metadata) });
       })
     }
@@ -49,15 +49,60 @@ class Search extends React.Component {
     })
   }
 
+  getThumb(files) {
+    let dbx = new Dropbox({ fetch, accessToken: this.state.token });
+
+    let pathArr = [];
+
+    for (let i = 0; i < files.length; i++) {
+      pathArr.push({ path: files[i].path_lower });
+    }
+
+    dbx.filesGetThumbnailBatch({ entries: pathArr })
+      .then(res => {
+
+        const th = {};
+
+        res.entries
+          .filter(x => x[".tag"] === "success")
+          .forEach((entry) => {
+            th[entry.metadata.id] = entry.thumbnail;
+          });
+
+        this.setState({ thumbnails: th });
+      })
+  }
+
+  bytesToSize(bytes) {
+    var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+
+    if (bytes === 0) return '0 Byte';
+
+    var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+
+    return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
+ }
+
   renderTableData() {
     return this.state.userFiles.map((object , index) => {
-      const { id, name, path_lower } = object;
+      const {
+        id,
+        name,
+        path_lower,
+        size,
+        server_modified
+      } = object;
+
       const tag = object[".tag"];
-      console.log(path_lower);
+
       return (
         <tr key={ id }>
-          <td>{ tag }</td>
+          <td>{ this.state.thumbnails[id]
+            ? <img alt='file' src={ 'data:image/jpg;base64,' + this.state.thumbnails[id] }/>
+            : (tag !== 'folder' ? "file" : 'folder') }</td>
           <td onClick={ () => this.props.rowOnClick(path_lower, tag) }>{ name }</td>
+          <td>{ server_modified ? server_modified.replace('T', ' ').replace('Z', ''): null }</td>
+          <td>{ tag !== 'folder' ? this.bytesToSize(size): null }</td>
           <td><Dropdown
             fileAtt={ {
               id: id,
@@ -80,6 +125,8 @@ class Search extends React.Component {
             <tr>
               <th>Type</th>
               <th>Name</th>
+              <th>Modified</th>
+              <th>Size</th>
             </tr>
           </thead>
           <tbody>
