@@ -3,6 +3,7 @@
   height: 85vh;
   flex-grow: 1;
   min-height: 555px;
+  overflow-y: auto;
 }
 
 .content table {
@@ -11,7 +12,6 @@
   border-collapse: collapse;
   color: white;
   margin-left: 30px;
-
 }
 
 .content th {
@@ -23,6 +23,7 @@
 .content td {
   padding: 25px 10px;
   cursor: pointer;
+  position: relative;
 }
 
 .content td:hover {
