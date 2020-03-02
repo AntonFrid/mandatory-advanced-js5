@@ -4,17 +4,25 @@ import { token$ } from '../store.js';
 
 import DeletePopUp from './DeletePopUp.js';
 import Dropdown from './Dropdown.js';
+import MovePopUp from './MovePopUp.js';
 
 class Content extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = ({ userFiles: [], token: token$.value, thumbnails: {}, fileToDelete: null });
+    this.state = ({
+      userFiles: [],
+      token: token$.value,
+      thumbnails: {},
+      fileToDelete: null,
+      fileToMove: null
+    });
 
     this.renderTableData = this.renderTableData.bind(this);
     this.onDeletePop = this.onDeletePop.bind(this);
     this.onDelete = this.onDelete.bind(this);
     this.closePopUp = this.closePopUp.bind(this);
+    this.onMove = this.onMove.bind(this);
   }
 
   componentDidMount() {
@@ -22,7 +30,7 @@ class Content extends React.Component {
 
     this.sub = token$.subscribe((token) => this.setState({ token }));
 
-    dbx.filesListFolder({ path: window.location.pathname.replace('/main', '') })
+    dbx.filesListFolder({ path: window.location.pathname.replace('/main', '').replace('%20', ' ') })
       .then(response => {
         this.getThumb(response.entries);
         this.setState({ userFiles: response.entries })
@@ -33,7 +41,7 @@ class Content extends React.Component {
     if(this.props.shouldIUpdate){
       let dbx = new Dropbox({ fetch, accessToken: this.state.token });
 
-      dbx.filesListFolder({ path: window.location.pathname.replace('/main', '') })
+      dbx.filesListFolder({ path: window.location.pathname.replace('/main', '').replace('%20', ' ') })
         .then(response => {
           this.getThumb(response.entries);
           this.props.unUpdateContent();
@@ -44,7 +52,7 @@ class Content extends React.Component {
     if(prevProps.path !== this.props.path){
       let dbx = new Dropbox({ fetch, accessToken: this.state.token });
 
-      dbx.filesListFolder({ path: window.location.pathname.replace('/main', '') })
+      dbx.filesListFolder({ path: window.location.pathname.replace('/main', '').replace('%20', ' ') })
         .then(response => {
           this.getThumb(response.entries);
           this.setState({ userFiles: response.entries })
@@ -69,8 +77,17 @@ class Content extends React.Component {
     })
   }
 
+  onMove() {
+    this.setState({ fileToMove: null });
+    this.props.unUpdateContent()
+  }
+
+  onMovePop(id, name, path) {
+    this.setState({ fileToMove: { id: id, name: name, path: path } });
+  }
+
   closePopUp() {
-    this.setState({ fileToDelete: null });
+    this.setState({ fileToDelete: null, fileToMove: null });
   }
 
   getThumb(files) {
@@ -134,6 +151,7 @@ class Content extends React.Component {
               name: name
             } }
             onDelete={ () => this.onDeletePop(id, name, path_lower) }
+            onMove={ () => this.onMovePop(id, name, path_lower) }
           /></td>
         </tr>
       );
@@ -161,6 +179,13 @@ class Content extends React.Component {
           ? <DeletePopUp
               onDelete={ this.onDelete }
               fileToDelete={ this.state.fileToDelete }
+              closePopUp={ this.closePopUp }/>
+          : null
+        }
+        { this.state.fileToMove !== null
+          ? <MovePopUp
+              onMove={ this.onMove }
+              fileToMove={ this.state.fileToMove }
               closePopUp={ this.closePopUp }/>
           : null
         }

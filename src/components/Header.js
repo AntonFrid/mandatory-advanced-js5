@@ -82,7 +82,7 @@ class Header extends React.Component {
                   <>
                   { path !== '' ? <h2 key={ 'arrow-' + index }>{ '>' }</h2>: null}
                   <h2 key={ 'heirarchy-' + index } onClick={ () => this.hierarchyClick(index) }>
-                    { path === '' ? 'Home': path }
+                    { path === '' ? 'Home': path.replace('%20', ' ') }
                   </h2>
                   </>
                 )

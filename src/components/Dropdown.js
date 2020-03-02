@@ -12,6 +12,7 @@ class Dropdown extends React.Component {
     this.closeMenu = this.closeMenu.bind(this);
     this.onClickDelete = this.onClickDelete.bind(this);
     this.onClickDownload = this.onClickDownload.bind(this);
+    this.onClickMove = this.onClickMove.bind(this);
   }
 
   componentDidMount() {
@@ -27,6 +28,7 @@ class Dropdown extends React.Component {
 
     if(this.state.showMenu) {
       this.setState({ showMenu: false }, () => {
+        this.refs.dropBtn.blur();
         document.removeEventListener('click', this.closeMenu);
       });
     }else{
@@ -38,7 +40,8 @@ class Dropdown extends React.Component {
 
   closeMenu() {
     this.setState({ showMenu: false }, () => {
-    document.removeEventListener('click', this.closeMenu);
+      this.refs.dropBtn.blur();
+      document.removeEventListener('click', this.closeMenu);
     });
   }
 
@@ -58,6 +61,11 @@ class Dropdown extends React.Component {
     this.refs.dropBtn.blur();
   }
 
+  onClickMove() {
+    this.props.onMove();
+    this.refs.dropBtn.blur();
+  }
+
   render() {
     return (
       <div className='dropdown'>
@@ -66,6 +74,7 @@ class Dropdown extends React.Component {
           <div className='dropdown-menu'>
             <button onClick={ this.onClickDownload }>Download</button>
             <button onClick={ this.onClickDelete }>Delete</button>
+            <button onClick={ this.onClickMove }>Move</button>
           </div>
           ): null
         }

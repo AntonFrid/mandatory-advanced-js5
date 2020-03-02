@@ -1,19 +1,5 @@
-.popUpBackground {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 2;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.1);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  backdrop-filter: blur(3px);
-}
-
-.popUpBox {
-  height: 200px;
+.popUpBoxMove {
+  height: 300px;
   width: 400px;
   background-color: #2c2f33;
   border: 0.5px solid black;
@@ -23,7 +9,7 @@
   justify-content: center;
 }
 
-.popUpBox form {
+.popUpBoxMove form {
   height: 80%;
   width: 100%;
   display: flex;
@@ -33,11 +19,11 @@
   color: #99aab5;
 }
 
-.popUpBox h2 {
+.popUpBoxMove h2 {
   color: white;
 }
 
-.popUpBox input {
+.popUpBoxMove input {
   outline: none;
   background-color: lightgreen;
   border: none;
@@ -49,7 +35,7 @@
   cursor: pointer;
 }
 
-.popUpBox form .formButtonsBox {
+.popUpBoxMove form .formButtonsBox {
   width: 360px;
   display: flex;
   justify-content: flex-end;
@@ -70,4 +56,11 @@
 .formButtonsBox > button:hover, .formButtonsBox > input:hover {
   color: white;
   background-color: #99aab5;
+}
+
+.folderPickerBox {
+  width: 230px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }

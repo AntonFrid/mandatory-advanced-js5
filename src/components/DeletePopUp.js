@@ -37,7 +37,7 @@ class DeletePopUp extends React.Component {
           <form onSubmit={ this.confirmDelete }>
             <label>Are you sure you want to delete:</label>
             <h2>{ this.props.fileToDelete.name }</h2>
-            <div>
+            <div className='formButtonsBox'>
               <input type='submit' value='Proceed'/>
               <button onClick={ this.props.closePopUp }>Cancel</button>
             </div>

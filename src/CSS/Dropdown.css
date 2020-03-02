@@ -32,7 +32,7 @@
 }
 
 .dropdown-menu {
-  height: 53px;
+  height: 73px;
   width: 75px;
   background-color: #23272a;
   border: 1px solid #7289da;
@@ -53,6 +53,6 @@
 
 .dropdown-menu > button:hover {
   color: #99aab5;
-  transition: 0.10s;
+  transition: 0.03s;
   cursor: pointer;
 }
