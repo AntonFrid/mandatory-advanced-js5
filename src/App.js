@@ -11,6 +11,7 @@ import './CSS/Header.css';
 import './CSS/Menupanel.css';
 import './CSS/Filepanel.css';
 import './CSS/Dropdown.css';
+import './CSS/DeletePopUp.css';
 
 //Components.
 import Main from './components/Main.js';

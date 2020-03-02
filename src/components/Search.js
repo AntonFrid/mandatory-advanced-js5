@@ -1,16 +1,20 @@
 import React from 'react';
 import { Dropbox } from 'dropbox';
 import { token$ } from '../store.js';
+
+import DeletePopUp from './DeletePopUp.js';
 import Dropdown from './Dropdown.js';
 
 class Search extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = ({ userFiles: [], token: token$.value, thumbnails: {} });
+    this.state = ({ userFiles: [], token: token$.value, thumbnails: {}, fileToDelete: null  });
 
     this.renderTableData = this.renderTableData.bind(this);
+    this.onDeletePop = this.onDeletePop.bind(this);
     this.onDelete = this.onDelete.bind(this);
+    this.closePopUp = this.closePopUp.bind(this);
   }
 
   componentDidMount() {
@@ -41,12 +45,21 @@ class Search extends React.Component {
     this.sub.unsubscribe();
   }
 
+  onDeletePop(id, name, path) {
+    this.setState({ fileToDelete: { id: id, name: name, path: path } });
+  }
+
   onDelete(id) {
     this.setState({
       userFiles: this.state.userFiles.filter((file) => {
         return file.id !== id;
-      })
+      }),
+      fileToDelete: null
     })
+  }
+
+  closePopUp() {
+    this.setState({ fileToDelete: null });
   }
 
   getThumb(files) {
@@ -109,7 +122,7 @@ class Search extends React.Component {
               path: path_lower,
               name: name
             } }
-            onDelete={ this.onDelete }
+            onDelete={ () => this.onDeletePop(id, name, path_lower) }
           /></td>
         </tr>
       );
@@ -133,6 +146,13 @@ class Search extends React.Component {
             { this.renderTableData() }
           </tbody>
         </table>
+        { this.state.fileToDelete !== null
+          ? <DeletePopUp
+              onDelete={ this.onDelete }
+              fileToDelete={ this.state.fileToDelete }
+              closePopUp={ this.closePopUp }/>
+          : null
+        }
       </div>
     );
   }

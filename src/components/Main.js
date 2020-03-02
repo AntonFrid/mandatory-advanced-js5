@@ -7,8 +7,7 @@ import Content from './Content.js';
 import Header from './Header.js';
 import Filepanel from './Filepanel.js';
 import Menupanel from './Menupanel.js';
-import Search from './Search.js'
-
+import Search from './Search.js';
 
 class Main extends React.Component {
   constructor(props) {
@@ -69,16 +68,19 @@ class Main extends React.Component {
             hierarchyOnClick={ this.changePath }
             searchResults={ this.searchResults }
             closeSearch={ this.closeSearch }
-            searchState={ this.state.searchState } />
+            searchState={ this.state.searchState }
+          />
           <div className='inner-main-div'>
             { this.state.searchState
               ? <Search
                   searchInput={ this.state.searchInput }
-                  rowOnClick={ this.changePath } />
+                  rowOnClick={ this.changePath }
+                />
               : <Content
                   path={ this.state.path }
                   searchInput={ this.state.searchInput }
-                  rowOnClick={ this.changePath } />
+                  rowOnClick={ this.changePath }
+                />
             }
             <Filepanel path={ this.state.path } />
           </div>

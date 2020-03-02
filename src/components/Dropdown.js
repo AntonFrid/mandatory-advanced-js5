@@ -54,14 +54,8 @@ class Dropdown extends React.Component {
   }
 
   onClickDelete() {
-    let dbx = new Dropbox({ fetch, accessToken: this.state.token });
-
-    dbx.filesDeleteV2({ path: this.props.fileAtt.path })
-      .then(() => {
-        this.props.onDelete(this.props.fileAtt.id);
-      })
-
-    this.refs.dropBtn.blur();  
+    this.props.onDelete();
+    this.refs.dropBtn.blur();
   }
 
   render() {
