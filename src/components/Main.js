@@ -7,6 +7,7 @@ import Content from './Content.js';
 import Header from './Header.js';
 import Filepanel from './Filepanel.js';
 import Menupanel from './Menupanel.js';
+import Search from './Search.js'
 
 
 class Main extends React.Component {
@@ -15,10 +16,13 @@ class Main extends React.Component {
 
     this.state = ({
        token: token$.value,
-       path: window.location.pathname.replace('/main', '')
+       path: window.location.pathname.replace('/main', ''),
+       searchState: false,
+       searchRes: [],
     });
 
     this.changePath = this.changePath.bind(this);
+    this.searchResults = this.searchResults.bind(this);
   }
 
   componentDidMount() {
@@ -34,6 +38,20 @@ class Main extends React.Component {
       this.setState({ path: path });
       this.props.changePath(path);
     }
+    this.setState({ searchState: false })
+  }
+
+  searchResults(input) {
+    if (input) {
+      this.setState({
+        searchInput: input,
+        searchState: true
+      })
+    }
+  }
+
+  searchCancel(){
+
   }
 
   render() {
@@ -45,10 +63,18 @@ class Main extends React.Component {
       <div className="Main">
         <Menupanel/>
         <div className='main-div'>
-          <Header path={ this.state.path } homeOnClick={ this.changePath }/>
+          <Header path={ this.state.path } homeOnClick={ this.changePath } searchResults={ this.searchResults } />
           <div className='inner-main-div'>
-            <Content path={ this.state.path } rowOnClick={ this.changePath }/>
-            <Filepanel path={ this.state.path }/>
+            { this.state.searchState
+              ? <Search
+                  searchInput={ this.state.searchInput }
+                  rowOnClick={ this.changePath } />
+              : <Content
+                  path={ this.state.path }
+                  searchInput={ this.state.searchInput }
+                  rowOnClick={ this.changePath } />
+            }
+            <Filepanel path={ this.state.path } />
           </div>
         </div>
       </div>
