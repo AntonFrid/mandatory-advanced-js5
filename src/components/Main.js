@@ -18,11 +18,13 @@ class Main extends React.Component {
        path: window.location.pathname.replace('/main', ''),
        searchState: false,
        searchRes: [],
+       updateContent: false
     });
 
     this.changePath = this.changePath.bind(this);
     this.searchResults = this.searchResults.bind(this);
     this.closeSearch = this.closeSearch.bind(this);
+    this.updateContent = this.updateContent.bind(this);
   }
 
   componentDidMount() {
@@ -54,6 +56,15 @@ class Main extends React.Component {
     this.setState({ searchState: false });
   }
 
+  updateContent() {
+    if(!this.state.updateContent){
+      this.setState({ updateContent: true });
+    }
+    else {
+      this.setState({ updateContent: false });
+    }
+  }
+
   render() {
     if(!this.state.token) {
       return <Redirect to='/'/>
@@ -80,9 +91,11 @@ class Main extends React.Component {
                   path={ this.state.path }
                   searchInput={ this.state.searchInput }
                   rowOnClick={ this.changePath }
+                  shouldIUpdate={ this.state.updateContent }
+                  unUpdateContent={ this.updateContent }
                 />
             }
-            <Filepanel path={ this.state.path } />
+            <Filepanel updateContent={ this.updateContent } path={ this.state.path } />
           </div>
         </div>
       </div>

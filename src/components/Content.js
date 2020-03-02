@@ -30,6 +30,17 @@ class Content extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
+    if(this.props.shouldIUpdate){
+      let dbx = new Dropbox({ fetch, accessToken: this.state.token });
+
+      dbx.filesListFolder({ path: window.location.pathname.replace('/main', '') })
+        .then(response => {
+          this.getThumb(response.entries);
+          this.props.unUpdateContent();
+          this.setState({ userFiles: response.entries })
+        });
+    }
+
     if(prevProps.path !== this.props.path){
       let dbx = new Dropbox({ fetch, accessToken: this.state.token });
 

@@ -41,20 +41,20 @@ class Filepanel extends React.Component {
 
     dbx.filesUpload({ path: this.props.path + "/" + e.target.files[0].name, contents: e.target.files[0] })
      .then(() => {
-
+       this.props.updateContent();
      })
-    console.log("test");
-    console.log(this.props.path);
-    console.log(e.target.files[0]);
   }
 
   createNewFolder(e) {
     e.preventDefault();
-    console.log(this.props.path);
+
     let dbx = new Dropbox({ fetch, accessToken: this.state.token });
 
-    dbx.filesCreateFolderV2({ path: this.props.path + "/" + this.state.folderName });
-    console.log("folder");
+    dbx.filesCreateFolderV2({ path: this.props.path + "/" + this.state.folderName })
+      .then(() => {
+        this.props.updateContent();
+      })
+
     this.setState({
       folderForm: "none",
       folderName: "",
