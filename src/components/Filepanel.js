@@ -18,7 +18,6 @@ class Filepanel extends React.Component {
     this.createNewFolder = this.createNewFolder.bind(this);
     this.onChange = this.onChange.bind(this);
     this.showForm = this.showForm.bind(this);
-    this.hideForm = this.hideForm.bind(this);
   }
 
   componentDidMount() {
@@ -42,11 +41,8 @@ class Filepanel extends React.Component {
 
     dbx.filesUpload({ path: this.props.path + "/" + e.target.files[0].name, contents: e.target.files[0] })
      .then(() => {
-
+       this.props.updateContent();
      })
-    console.log("test");
-    console.log(this.props.path);
-    console.log(e.target.files[0]);
   }
 
   createNewFolder(e) {
@@ -54,32 +50,24 @@ class Filepanel extends React.Component {
     console.log(this.props.path);
     let dbx = new Dropbox({ fetch, accessToken: this.state.token });
 
-    dbx.filesCreateFolderV2({ path: this.props.path + "/" + this.state.folderName });
-    console.log("folder");
-    this.setState({
-      folderForm: "none",
-      folderName: "",
-     });
+    dbx.filesCreateFolderV2({ path: this.props.path + "/" + this.state.folderName })
+      .then(() => {
+        this.props.updateContent();
+        this.setState({
+          folderForm: "none",
+          folderName: "",
+         });
+      })
   }
 
   showForm(e) {
     e.preventDefault();
 
     if (this.state.folderForm === "none") {
-      this.setState({ folderForm: "block" }, () => {
-        document.addEventListener( 'click', this.hideForm);
-      })
+      this.setState({ folderForm: "block" });
     }else{
-      this.setState({ folderForm: "none" }, () => {
-        document.removeEventListener('click', this.hideForm);
-      })
+      this.setState({ folderForm: "none" });
     }
-  }
-
-  hideForm() {
-    this.setState({ folderForm: "none" }, () => {
-      document.removeEventListener('click', this.hideForm);
-    })
   }
 
   render() {
