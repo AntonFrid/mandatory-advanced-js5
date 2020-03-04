@@ -35,13 +35,25 @@ class RenamePopUp extends React.Component {
   confirmRename(e) {
     e.preventDefault();
 
-    let newPathArr = this.props.fileToRename.path.split("/");
-    let fileExt = '.'  + newPathArr.pop().split('.').pop();
-    let newPath = newPathArr.join('/');
+    let path;
+
+    if(this.props.fileToRename.tag === 'file') {
+      let newPathArr = this.props.fileToRename.path.split("/");
+      let fileExt = '.'  + newPathArr.pop().split('.').pop();
+      let newPath = newPathArr.join('/');
+
+      path = newPath + '/' + this.state.newName + fileExt;
+    }
+    else {
+      let newPathArr = this.props.fileToRename.path.split("/");
+      newPathArr.pop()
+      let newPath = newPathArr.join('/');
+      path = newPath + '/' + this.state.newName;
+    }
 
     let dbx = new Dropbox({ fetch, accessToken: this.state.token });
 
-    dbx.filesMoveV2({ from_path: this.props.fileToRename.path, to_path: newPath + '/' + this.state.newName + fileExt })
+    dbx.filesMoveV2({ from_path: this.props.fileToRename.path, to_path: path })
       .then(() => {
         this.props.onRename(this.props.fileToRename.id);
       })

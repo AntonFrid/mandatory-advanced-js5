@@ -43,3 +43,8 @@
   border-top: 1px solid black;
   border-bottom: 1px solid black;
 }
+
+.icon {
+  filter: invert(73%) sepia(10%) saturate(408%) hue-rotate(160deg) brightness(90%) contrast(90%);
+  width: 50px;
+}

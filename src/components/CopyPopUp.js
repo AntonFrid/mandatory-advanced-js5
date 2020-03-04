@@ -33,7 +33,8 @@ class CopyPopUp extends React.Component {
 
     dbx.filesCopyV2({
       from_path: this.props.fileToCopy.path,
-      to_path: this.state.pathTo + '/' + this.props.fileToCopy.name
+      to_path: this.state.pathTo + '/' + this.props.fileToCopy.name,
+      autorename: true
     })
       .then(() => {
         this.props.onCopy();
@@ -47,7 +48,6 @@ class CopyPopUp extends React.Component {
           <form onSubmit={ this.confirmCopy }>
             <label>Where do you want to copy:</label>
             <h2>{ this.props.fileToCopy.name }</h2>
-            { console.log(this.state.pathTo) }
             <label>Destination: { this.state.pathTo !== null
               ? (this.state.pathTo === '' ? '/home': this.state.pathTo)
               : null

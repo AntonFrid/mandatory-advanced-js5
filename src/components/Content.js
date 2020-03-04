@@ -114,8 +114,8 @@ class Content extends React.Component {
     this.setState({ fileToCopy: { id: id, name: name,  path: path } })
   }
 
-  onRenamePop(id, name, path) {
-    this.setState({ fileToRename: { id: id, name: name, path: path } })
+  onRenamePop(id, name, path, tag) {
+    this.setState({ fileToRename: { id: id, name: name, path: path, tag: tag } })
   }
 
   onRename() {
@@ -174,10 +174,15 @@ class Content extends React.Component {
       const tag = object[".tag"];
 
       return (
-        <tr key={ id }>
+        <tr key={ 'content-' + index }>
           <td>{ this.state.thumbnails[id]
             ? <img alt='file' src={ 'data:image/jpg;base64,' + this.state.thumbnails[id] }/>
-            : (tag !== 'folder' ? "file" : 'folder') }</td>
+            : (
+                tag !== 'folder'
+                ? <img src="/media/file-icon.svg" alt="icon" className="icon"/>
+                : <img src="/media/folder-icon.svg" alt="icon" className="icon"/>
+              )
+          }</td>
           <td onClick={ () => this.props.rowOnClick(path_lower, tag) }>{ name }</td>
           <td>{ server_modified ? server_modified.replace('T', ' ').replace('Z', ''): null }</td>
           <td>{ tag !== 'folder' ? this.bytesToSize(size): null }</td>
@@ -189,7 +194,7 @@ class Content extends React.Component {
             } }
             onDelete={ () => this.onDeletePop(id, name, path_lower) }
             onMove={ () => this.onMovePop(id, name, path_lower) }
-            onRename={ () => this.onRenamePop(id, name, path_lower) }
+            onRename={ () => this.onRenamePop(id, name, path_lower, tag) }
             onCopy={ () => this.onCopyPop(id, name, path_lower) }
           /></td>
         </tr>
@@ -204,7 +209,7 @@ class Content extends React.Component {
         <table>
           <thead>
             <tr>
-              <th>Type</th>
+              <th></th>
               <th>Name</th>
               <th>Modified</th>
               <th>Size</th>

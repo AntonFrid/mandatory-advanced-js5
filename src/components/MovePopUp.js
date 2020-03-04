@@ -30,10 +30,11 @@ class MovePopUp extends React.Component {
     e.preventDefault();
 
     let dbx = new Dropbox({ fetch, accessToken: this.state.token });
-
+    
     dbx.filesMoveV2({
       from_path: this.props.fileToMove.path,
-      to_path: this.state.pathTo + '/' + this.props.fileToMove.name
+      to_path: this.state.pathTo + '/' + this.props.fileToMove.name,
+      autorename: true
     })
       .then(() => {
         this.props.onMove();
@@ -47,7 +48,6 @@ class MovePopUp extends React.Component {
           <form onSubmit={ this.confirmMove }>
             <label>Where do you want to move:</label>
             <h2>{ this.props.fileToMove.name }</h2>
-            { console.log(this.state.pathTo) }
             <label>Destination: { this.state.pathTo !== null
               ? (this.state.pathTo === '' ? '/home': this.state.pathTo)
               : null
