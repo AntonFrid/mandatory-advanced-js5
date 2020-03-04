@@ -13,6 +13,8 @@ class Dropdown extends React.Component {
     this.onClickDelete = this.onClickDelete.bind(this);
     this.onClickDownload = this.onClickDownload.bind(this);
     this.onClickMove = this.onClickMove.bind(this);
+    this.onClickRename = this.onClickRename.bind(this);
+    this.onClickCopy = this.onClickCopy.bind(this);
   }
 
   componentDidMount() {
@@ -66,6 +68,17 @@ class Dropdown extends React.Component {
     this.refs.dropBtn.blur();
   }
 
+  onClickRename() {
+    this.props.onRename();
+    this.refs.dropBtn.blur();
+  }
+
+  onClickCopy() {
+    console.log("Test");
+    this.props.onCopy();
+    this.refs.dropBtn.blur();
+  }
+
   render() {
     return (
       <div className='dropdown'>
@@ -75,6 +88,8 @@ class Dropdown extends React.Component {
             <button onClick={ this.onClickDownload }>Download</button>
             <button onClick={ this.onClickDelete }>Delete</button>
             <button onClick={ this.onClickMove }>Move</button>
+            <button onClick={ this.onClickRename }>Rename</button>
+            <button onClick={ this.onClickCopy }>Copy</button>
           </div>
           ): null
         }

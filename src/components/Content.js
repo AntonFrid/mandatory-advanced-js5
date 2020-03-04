@@ -5,6 +5,8 @@ import { token$ } from '../store.js';
 import DeletePopUp from './DeletePopUp.js';
 import Dropdown from './Dropdown.js';
 import MovePopUp from './MovePopUp.js';
+import RenamePopUp from './RenamePopUp.js';
+import CopyPopUp from './CopyPopUp.js';
 
 class Content extends React.Component {
   constructor(props) {
@@ -15,7 +17,9 @@ class Content extends React.Component {
       token: token$.value,
       thumbnails: {},
       fileToDelete: null,
-      fileToMove: null
+      fileToMove: null,
+      fileToRename: null,
+      fileToCopy: null
     });
 
     this.renderTableData = this.renderTableData.bind(this);
@@ -23,6 +27,10 @@ class Content extends React.Component {
     this.onDelete = this.onDelete.bind(this);
     this.closePopUp = this.closePopUp.bind(this);
     this.onMove = this.onMove.bind(this);
+    this.onRenamePop = this.onRenamePop.bind(this);
+    this.onRename = this.onRename.bind(this);
+    this.onCopyPop = this.onCopyPop.bind(this);
+    this.onCopy = this.onCopy.bind(this);
   }
 
   componentDidMount() {
@@ -79,15 +87,33 @@ class Content extends React.Component {
 
   onMove() {
     this.setState({ fileToMove: null });
-    this.props.unUpdateContent()
+    this.props.unUpdateContent();
   }
 
   onMovePop(id, name, path) {
     this.setState({ fileToMove: { id: id, name: name, path: path } });
   }
 
+  onCopy() {
+    this.setState({ fileToCopy: null });
+    this.props.unUpdateContent();
+  }
+
+  onCopyPop(id, name, path) {
+    this.setState({ fileToCopy: { id: id, name: name,  path: path } })
+  }
+
+  onRenamePop(id, name, path) {
+    this.setState({ fileToRename: { id: id, name: name, path: path } })
+  }
+
+  onRename() {
+    this.setState({ fileToRename: null });
+    this.props.unUpdateContent();
+  }
+
   closePopUp() {
-    this.setState({ fileToDelete: null, fileToMove: null });
+    this.setState({ fileToDelete: null, fileToMove: null, fileToRename: null, fileToCopy: null });
   }
 
   getThumb(files) {
@@ -152,6 +178,8 @@ class Content extends React.Component {
             } }
             onDelete={ () => this.onDeletePop(id, name, path_lower) }
             onMove={ () => this.onMovePop(id, name, path_lower) }
+            onRename={ () => this.onRenamePop(id, name, path_lower) }
+            onCopy={ () => this.onCopyPop(id, name, path_lower) }
           /></td>
         </tr>
       );
@@ -186,6 +214,20 @@ class Content extends React.Component {
           ? <MovePopUp
               onMove={ this.onMove }
               fileToMove={ this.state.fileToMove }
+              closePopUp={ this.closePopUp }/>
+          : null
+        }
+        { this.state.fileToRename !== null
+          ? <RenamePopUp
+              onRename={ this.onRename }
+              fileToRename={ this.state.fileToRename }
+              closePopUp={ this.closePopUp }/>
+          : null
+        }
+        { this.state.fileToCopy !== null
+          ? <CopyPopUp
+              onCopy={ this.onCopy }
+              fileToCopy={ this.state.fileToCopy }
               closePopUp={ this.closePopUp }/>
           : null
         }

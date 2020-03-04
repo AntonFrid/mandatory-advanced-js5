@@ -3,18 +3,33 @@ import { Dropbox } from 'dropbox';
 import { token$ } from '../store.js';
 
 import DeletePopUp from './DeletePopUp.js';
+import MovePopUp from './MovePopUp.js';
+import RenamePopUp from './RenamePopUp.js';
+import CopyPopUp from './CopyPopUp.js';
 import Dropdown from './Dropdown.js';
 
 class Search extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = ({ userFiles: [], token: token$.value, thumbnails: {}, fileToDelete: null  });
+    this.state = ({
+      userFiles: [],
+      token: token$.value,
+      thumbnails: {},
+      fileToDelete: null,
+      fileToMove: null,
+      fileToRename: null,
+      fileToCopy: null  });
 
     this.renderTableData = this.renderTableData.bind(this);
     this.onDeletePop = this.onDeletePop.bind(this);
     this.onDelete = this.onDelete.bind(this);
     this.closePopUp = this.closePopUp.bind(this);
+    this.onMove = this.onMove.bind(this);
+    this.onRenamePop = this.onRenamePop.bind(this);
+    this.onRename = this.onRename.bind(this);
+    this.onCopyPop = this.onCopyPop.bind(this);
+    this.onCopy = this.onCopy.bind(this);
   }
 
   componentDidMount() {
@@ -30,6 +45,17 @@ class Search extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
+    if(this.props.shouldIUpdate){
+      let dbx = new Dropbox({ fetch, accessToken: this.state.token });
+
+      dbx.filesSearch({ path: "", query: this.props.searchInput })
+        .then(res => {
+          this.props.unUpdateSearch();
+          this.getThumb(res.matches.map(x => x.metadata));
+          this.setState({ userFiles: res.matches.map(x => x.metadata) });
+        });
+    }
+
     if (this.props.searchInput !== prevProps.searchInput ) {
       let dbx = new Dropbox({ fetch, accessToken: this.state.token });
 
@@ -58,8 +84,39 @@ class Search extends React.Component {
     })
   }
 
+  onMove() {
+    this.setState({ fileToMove: null });
+    this.props.unUpdateSearch();
+  }
+
+  onMovePop(id, name, path) {
+    this.setState({ fileToMove: { id: id, name: name, path: path } });
+  }
+
+  onCopy() {
+    this.setState({ fileToCopy: null });
+    this.props.unUpdateSearch();
+  }
+
+  onCopyPop(id, name, path) {
+    this.setState({ fileToCopy: { id: id, name: name,  path: path } })
+  }
+
+  onRenamePop(id, name, path) {
+    this.setState({ fileToRename: { id: id, name: name, path: path } })
+  }
+
+  onRename() {
+    this.setState({ fileToRename: null });
+    this.props.unUpdateSearch();
+  }
+
   closePopUp() {
-    this.setState({ fileToDelete: null });
+    this.setState({ fileToDelete: null, fileToMove: null, fileToRename: null, fileToCopy: null });
+  }
+
+  closePopUp() {
+    this.setState({ fileToDelete: null, fileToMove: null, fileToRename: null, fileToCopy: null });
   }
 
   getThumb(files) {
@@ -123,6 +180,9 @@ class Search extends React.Component {
               name: name
             } }
             onDelete={ () => this.onDeletePop(id, name, path_lower) }
+            onMove={ () => this.onMovePop(id, name, path_lower) }
+            onRename={ () => this.onRenamePop(id, name, path_lower) }
+            onCopy={ () => this.onCopyPop(id, name, path_lower) }
           /></td>
         </tr>
       );
@@ -150,6 +210,27 @@ class Search extends React.Component {
           ? <DeletePopUp
               onDelete={ this.onDelete }
               fileToDelete={ this.state.fileToDelete }
+              closePopUp={ this.closePopUp }/>
+          : null
+        }
+        { this.state.fileToMove !== null
+          ? <MovePopUp
+              onMove={ this.onMove }
+              fileToMove={ this.state.fileToMove }
+              closePopUp={ this.closePopUp }/>
+          : null
+        }
+        { this.state.fileToRename !== null
+          ? <RenamePopUp
+              onRename={ this.onRename }
+              fileToRename={ this.state.fileToRename }
+              closePopUp={ this.closePopUp }/>
+          : null
+        }
+        { this.state.fileToCopy !== null
+          ? <CopyPopUp
+              onCopy={ this.onCopy }
+              fileToCopy={ this.state.fileToCopy }
               closePopUp={ this.closePopUp }/>
           : null
         }

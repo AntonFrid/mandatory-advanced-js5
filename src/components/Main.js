@@ -18,13 +18,16 @@ class Main extends React.Component {
        path: window.location.pathname.replace('/main', ''),
        searchState: false,
        searchRes: [],
-       updateContent: false
+       previewState: false,
+       updateContent: false,
+       updateSearch: false
     });
 
     this.changePath = this.changePath.bind(this);
     this.searchResults = this.searchResults.bind(this);
     this.closeSearch = this.closeSearch.bind(this);
     this.updateContent = this.updateContent.bind(this);
+    this.updateSearch = this.updateSearch.bind(this);
   }
 
   componentDidMount() {
@@ -36,9 +39,15 @@ class Main extends React.Component {
   }
 
   changePath(path, tag) {
+    console.log(path);
     if(tag === 'folder') {
       this.setState({ path: path });
       this.props.changePath(path);
+    } else if (tag === 'file') {
+      this.setState({
+        path: path,
+        previewState: true
+      })
     }
     this.setState({ searchState: false })
   }
@@ -65,6 +74,15 @@ class Main extends React.Component {
     }
   }
 
+  updateSearch() {
+    if(!this.state.updateSearch){
+      this.setState({ updateSearch: true });
+    }
+    else {
+      this.setState({ updateSearch: false });
+    }
+  }
+
   render() {
     if(!this.state.token) {
       return <Redirect to='/'/>
@@ -86,6 +104,8 @@ class Main extends React.Component {
               ? <Search
                   searchInput={ this.state.searchInput }
                   rowOnClick={ this.changePath }
+                  shouldIUpdate={ this.state.updateSearch }
+                  unUpdateSearch={ this.updateSearch }
                 />
               : <Content
                   path={ this.state.path }
@@ -95,7 +115,11 @@ class Main extends React.Component {
                   unUpdateContent={ this.updateContent }
                 />
             }
-            <Filepanel updateContent={ this.updateContent } path={ this.state.path } />
+            <Filepanel
+              updateContent={ this.updateContent }
+              path={ this.state.path }
+            />
+
           </div>
         </div>
       </div>

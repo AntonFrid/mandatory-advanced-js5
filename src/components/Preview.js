@@ -2,7 +2,7 @@ import React from 'react';
 import { Dropbox } from 'dropbox';
 import { token$ } from '../store.js';
 
-class Filepanel extends React.Component {
+class Preview extends React.Component {
   constructor(props) {
     super(props)
 
@@ -22,7 +22,21 @@ class Filepanel extends React.Component {
   }
 
   componentDidMount() {
+    console.log(this.props.path);
     this.sub = token$.subscribe((token) => this.setState({ token }));
+    let dbx = new Dropbox({ fetch, accessToken: this.state.token });
+    dbx.filesGetPreview({ path: this.props.path + "/" })
+      .then((response) => {
+        console.log(response);
+      })
+  }
+
+  componentDidUpdate() {
+    let dbx = new Dropbox({ fetch, accessToken: this.state.token });
+    dbx.filesGetPreview({ path: this.props.path + "/" })
+      .then((response) => {
+        console.log(response);
+      })
   }
 
   componentWillUnmount() {
@@ -106,4 +120,4 @@ class Filepanel extends React.Component {
   }
 }
 
-export default Filepanel;
+export default Preview;
