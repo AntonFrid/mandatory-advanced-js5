@@ -33,6 +33,8 @@ class Search extends React.Component {
   }
 
   componentDidMount() {
+    let sec = 1000;
+
     this.sub = token$.subscribe((token) => this.setState({ token }));
 
     let dbx = new Dropbox({ fetch, accessToken: this.state.token });
@@ -42,6 +44,14 @@ class Search extends React.Component {
       this.getThumb(result.matches.map(x => x.metadata));
       this.setState({ userFiles: result.matches.map(x => x.metadata) });
     })
+
+    this.polling = setInterval(() => {
+      dbx.filesSearch({ path: "", query: this.props.searchInput })
+      .then((result) => {
+        this.getThumb(result.matches.map(x => x.metadata));
+        this.setState({ userFiles: result.matches.map(x => x.metadata) });
+      })
+    }, 20 * sec);
   }
 
   componentDidUpdate(prevProps) {
@@ -69,6 +79,7 @@ class Search extends React.Component {
 
   componentWillUnmount() {
     this.sub.unsubscribe();
+    clearInterval(this.polling);
   }
 
   onDeletePop(id, name, path) {
@@ -109,10 +120,6 @@ class Search extends React.Component {
   onRename() {
     this.setState({ fileToRename: null });
     this.props.unUpdateSearch();
-  }
-
-  closePopUp() {
-    this.setState({ fileToDelete: null, fileToMove: null, fileToRename: null, fileToCopy: null });
   }
 
   closePopUp() {

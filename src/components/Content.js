@@ -34,6 +34,8 @@ class Content extends React.Component {
   }
 
   componentDidMount() {
+    let sec = 1000;
+
     let dbx = new Dropbox({ fetch, accessToken: this.state.token });
 
     this.sub = token$.subscribe((token) => this.setState({ token }));
@@ -43,6 +45,14 @@ class Content extends React.Component {
         this.getThumb(response.entries);
         this.setState({ userFiles: response.entries })
       });
+
+    this.polling = setInterval(() => {
+      dbx.filesListFolder({ path: window.location.pathname.replace('/main', '').replace('%20', ' ') })
+        .then(response => {
+          this.getThumb(response.entries);
+          this.setState({ userFiles: response.entries })
+        });
+    }, 20 * sec);
   }
 
   componentDidUpdate(prevProps) {
@@ -70,6 +80,7 @@ class Content extends React.Component {
 
   componentWillUnmount() {
     this.sub.unsubscribe();
+    clearInterval(this.polling);
   }
 
   onDeletePop(id, name, path) {

@@ -39,16 +39,11 @@ class Main extends React.Component {
   }
 
   changePath(path, tag) {
-    console.log(path);
     if(tag === 'folder') {
       this.setState({ path: path });
       this.props.changePath(path);
-    } else if (tag === 'file') {
-      this.setState({
-        path: path,
-        previewState: true
-      })
     }
+
     this.setState({ searchState: false })
   }
 

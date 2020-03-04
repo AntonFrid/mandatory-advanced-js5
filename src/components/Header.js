@@ -79,12 +79,12 @@ class Header extends React.Component {
             ? <h2 onClick={ () => this.hierarchyClick(0) }>Search</h2>
             : this.state.pathArr.map((path, index) => {
                 return (
-                  <>
-                  { path !== '' ? <h2 key={ 'arrow-' + index }>{ '>' }</h2>: null}
-                  <h2 key={ 'heirarchy-' + index } onClick={ () => this.hierarchyClick(index) }>
+                  <React.Fragment key={ 'heirarchy-' + index }>
+                  { path !== '' ? <h2>{ '>' }</h2>: null}
+                  <h2 onClick={ () => this.hierarchyClick(index) }>
                     { path === '' ? 'Home': path.replace('%20', ' ') }
                   </h2>
-                  </>
+                  </React.Fragment>
                 )
           })}
         </div>
