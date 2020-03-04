@@ -13,6 +13,7 @@ import './CSS/Filepanel.css';
 import './CSS/Dropdown.css';
 import './CSS/DeletePopUp.css';
 import './CSS/MovePopUp.css';
+import './CSS/RenamePopUp.css';
 
 //Components.
 import Main from './components/Main.js';
