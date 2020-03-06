@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dropbox } from 'dropbox';
-import { updateToken, token$ } from '../store.js';
+import { updateToken, token$, clearStorage } from '../store.js';
 
 class Menupanel extends React.Component {
   constructor(props) {
@@ -26,6 +26,7 @@ class Menupanel extends React.Component {
 
   logOut(){
     updateToken(null);
+    clearStorage()
   }
 
   render() {

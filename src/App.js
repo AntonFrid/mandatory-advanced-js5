@@ -14,6 +14,7 @@ import './CSS/Dropdown.css';
 import './CSS/DeletePopUp.css';
 import './CSS/MovePopUp.css';
 import './CSS/RenamePopUp.css';
+import './CSS/Starred.css';
 
 //Components.
 import Main from './components/Main.js';
