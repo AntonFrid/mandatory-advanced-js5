@@ -1,10 +1,12 @@
 import React from 'react';
 import { Dropbox } from 'dropbox';
-import { token$, toggleFavorite, removeFavorite, starredArray$ } from '../store.js';
+import { token$, toggleFavorite, removeFavorite, updateFavorite, starredArray$ } from '../store.js';
 
 import DeletePopUp from './DeletePopUp.js';
 import Dropdown from './Dropdown.js';
 import MovePopUp from './MovePopUp.js';
+import RenamePopUp from './RenamePopUp.js';
+import CopyPopUp from './CopyPopUp.js';
 
 class Content extends React.Component {
   constructor(props) {
@@ -16,6 +18,8 @@ class Content extends React.Component {
       thumbnails: {},
       fileToDelete: null,
       fileToMove: null,
+      fileToRename: null,
+      fileToCopy: null,
       starredArray: starredArray$.value,
     });
 
@@ -24,6 +28,10 @@ class Content extends React.Component {
     this.onDelete = this.onDelete.bind(this);
     this.closePopUp = this.closePopUp.bind(this);
     this.onMove = this.onMove.bind(this);
+    this.onRenamePop = this.onRenamePop.bind(this);
+    this.onRename = this.onRename.bind(this);
+    this.onCopyPop = this.onCopyPop.bind(this);
+    this.onCopy = this.onCopy.bind(this);
   }
 
   componentDidMount() {
@@ -39,7 +47,7 @@ class Content extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if(this.props.shouldIUpdate){
+    if(this.props.starredArray !== prevProps.starredArray){
       let dbx = new Dropbox({ fetch, accessToken: this.state.token });
     
       this.getThumb(this.state.starredArray);
@@ -85,6 +93,26 @@ class Content extends React.Component {
 
   onMovePop(id, name, path) {
     this.setState({ fileToMove: { id: id, name: name, path: path } });
+  }
+
+  onCopy() {
+    this.setState({ fileToCopy: null });
+    this.props.unUpdateContent();
+  }
+
+  onCopyPop(id, name, path) {
+    this.setState({ fileToCopy: { id: id, name: name,  path: path } })
+  }
+
+  onRenamePop(id, name, path, tag) {
+    this.setState({ fileToRename: { id: id, name: name, path: path, tag: tag } })
+  }
+
+  onRename(id, file) {
+    this.setState({ fileToRename: null });
+    this.props.unUpdateContent();
+    updateFavorite(file);
+
   }
 
   closePopUp() {
@@ -156,6 +184,8 @@ class Content extends React.Component {
             } }
             onDelete={ () => this.onDeletePop(id, name, path_lower) }
             onMove={ () => this.onMovePop(id, name, path_lower) }
+            onRename={ () => this.onRenamePop(id, name, path_lower, tag) }
+            onCopy={ () => this.onCopyPop(id, name, path_lower) }
           /></td>
         </tr>
       );
@@ -194,6 +224,20 @@ class Content extends React.Component {
           ? <MovePopUp
               onMove={ this.onMove }
               fileToMove={ this.state.fileToMove }
+              closePopUp={ this.closePopUp }/>
+          : null
+        }
+        { this.state.fileToRename !== null
+          ? <RenamePopUp
+              onRename={ this.onRename }
+              fileToRename={ this.state.fileToRename }
+              closePopUp={ this.closePopUp }/>
+          : null
+        }
+        { this.state.fileToCopy !== null
+          ? <CopyPopUp
+              onCopy={ this.onCopy }
+              fileToCopy={ this.state.fileToCopy }
               closePopUp={ this.closePopUp }/>
           : null
         }

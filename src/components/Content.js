@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dropbox } from 'dropbox';
-import { token$, toggleFavorite, removeFavorite, starredArray$ } from '../store.js';
+import { token$, toggleFavorite, removeFavorite, updateFavorite, starredArray$ } from '../store.js';
 
 import DeletePopUp from './DeletePopUp.js';
 import Dropdown from './Dropdown.js';
@@ -66,9 +66,10 @@ class Content extends React.Component {
       dbx.filesListFolder({ path: window.location.pathname.replace('/main', '').replace('%20', ' ') })
         .then(response => {
           this.getThumb(response.entries);
-          this.props.unUpdateContent();
           this.setState({ userFiles: response.entries })
-        });
+          this.props.unUpdateContent();
+
+        })
     }
 
     if(prevProps.path !== this.props.path){
@@ -128,9 +129,11 @@ class Content extends React.Component {
     this.setState({ fileToRename: { id: id, name: name, path: path, tag: tag } })
   }
 
-  onRename() {
+  onRename(id, file) {
     this.setState({ fileToRename: null });
     this.props.unUpdateContent();
+
+    updateFavorite(file);
   }
 
   closePopUp() {
