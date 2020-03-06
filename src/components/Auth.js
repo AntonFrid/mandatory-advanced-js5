@@ -22,11 +22,7 @@ export class Auth extends Component {
       return <Redirect to='/main'/>
     }
 
-    return (
-      <div>
-        <p>auth site</p>
-      </div>
-    )
+    return null;
   }
 }
 

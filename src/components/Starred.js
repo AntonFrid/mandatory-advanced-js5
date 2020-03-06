@@ -35,16 +35,16 @@ class Content extends React.Component {
     ];
 
     this.getThumb(this.state.starredArray);
-   
+
   }
 
   componentDidUpdate(prevProps) {
     if(this.props.shouldIUpdate){
       let dbx = new Dropbox({ fetch, accessToken: this.state.token });
-    
+
       this.getThumb(this.state.starredArray);
 
-      
+
     }
 
     if(prevProps.path !== this.props.path){
@@ -52,16 +52,15 @@ class Content extends React.Component {
 
       this.getThumb(this.state.starredArray);
 
-      
+
     }
-    console.log('starred updated')
   }
 
   componentWillUnmount() {
     this.subscriptions.forEach((sub) => sub.unsubscribe());
   }
 
-  
+
   onDeletePop(id, name, path) {
     this.setState({ fileToDelete: { id: id, name: name, path: path } });
   }

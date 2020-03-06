@@ -80,7 +80,6 @@ class Content extends React.Component {
           this.setState({ userFiles: response.entries })
         });
     }
-    console.log('content updated')
   }
 
   componentWillUnmount() {
@@ -89,7 +88,7 @@ class Content extends React.Component {
     this.subscriptions.forEach((sub) => sub.unsubscribe());
   }
 
-  
+
   onDeletePop(id, name, path) {
     this.setState({ fileToDelete: { id: id, name: name, path: path } });
   }
@@ -100,11 +99,11 @@ class Content extends React.Component {
         return file.id !== id;
       }),
       fileToDelete: null
-    })    
-    removeFavorite(id)        
+    })
+    removeFavorite(id)
   }
 
-    
+
 
   onMove() {
     this.setState({ fileToMove: null });
