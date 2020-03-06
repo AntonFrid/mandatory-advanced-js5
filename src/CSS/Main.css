@@ -10,3 +10,9 @@
 .inner-main-div {
   display: flex;
 }
+
+.contentContainer{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}

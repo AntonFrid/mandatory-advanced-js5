@@ -34,35 +34,27 @@ class Content extends React.Component {
       starredArray$.subscribe((starredArray) => this.setState({ starredArray })),
     ];
 
-    dbx.filesListFolder({ path: window.location.pathname.replace('/main', '').replace('%20', ' ') })
-      .then(response => {
-        this.getThumb(response.entries);
-        this.setState({ userFiles: response.entries })
-      });
+    this.getThumb(this.state.starredArray);
+   
   }
 
   componentDidUpdate(prevProps) {
     if(this.props.shouldIUpdate){
       let dbx = new Dropbox({ fetch, accessToken: this.state.token });
+    
+      this.getThumb(this.state.starredArray);
 
-      dbx.filesListFolder({ path: window.location.pathname.replace('/main', '').replace('%20', ' ') })
-        .then(response => {
-          this.getThumb(response.entries);
-          this.props.unUpdateContent();
-          this.setState({ userFiles: response.entries })
-        });
+      
     }
 
     if(prevProps.path !== this.props.path){
       let dbx = new Dropbox({ fetch, accessToken: this.state.token });
 
-      dbx.filesListFolder({ path: window.location.pathname.replace('/main', '').replace('%20', ' ') })
-        .then(response => {
-          this.getThumb(response.entries);
-          this.setState({ userFiles: response.entries })
-        });
+      this.getThumb(this.state.starredArray);
+
+      
     }
-    console.log('content updated')
+    console.log('starred updated')
   }
 
   componentWillUnmount() {
@@ -80,11 +72,11 @@ class Content extends React.Component {
         return file.id !== id;
       }),
       fileToDelete: null
-    })    
-    removeFavorite(id)        
-  }
+    })
+    removeFavorite(id);
+    this.props.updateContent();
 
-    
+  }
 
   onMove() {
     this.setState({ fileToMove: null });
@@ -134,7 +126,7 @@ class Content extends React.Component {
  }
 
   renderTableData() {
-    return this.state.userFiles.map((object , index) => {
+    return this.state.starredArray.map((object , index) => {
       const {
         id,
         name,
@@ -172,9 +164,11 @@ class Content extends React.Component {
 
 
   render() {
+    console.log(this.state.starredArray);
 
     return (
-      <div className='content'>
+      <div className='starredContent'>
+        <h1 className = 'starredTitle'>Starred Content</h1>
         <table>
           <thead>
             <tr>
