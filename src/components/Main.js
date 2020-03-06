@@ -111,6 +111,7 @@ class Main extends React.Component {
                   rowOnClick={ this.changePath }
                   shouldIUpdate={ this.state.updateContent }
                   updateContent={ this.updateContent }
+                  unUpdateContent={ this.updateContent }
                 />
               <Content
                   path={ this.state.path }
