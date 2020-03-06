@@ -24,6 +24,10 @@ class RenamePopUp extends React.Component {
     this.sub.unsubscribe();
   }
 
+  componentDidUpdate() {
+    this._input.focus();
+  }
+
   onChange(e){
     let value = e.target.value;
     this.setState({
@@ -66,7 +70,13 @@ class RenamePopUp extends React.Component {
           <form onSubmit={ this.confirmRename }>
             <h2>{ this.props.fileToRename.name }</h2>
             <label>New name:</label>
-            <input type="text" name="newName" className="renameInput" value={ this.state.newName } onChange={ this.onChange } />
+            <input
+              type="text"
+              name="newName"
+              className="renameInput"
+              value={ this.state.newName }
+              onChange={ this.onChange }
+              ref={ c => (this._input = c) }/>
             <div className='formButtonsBox'>
               <input type='submit' value='Proceed'/>
               <button onClick={ this.props.closePopUp }>Cancel</button>

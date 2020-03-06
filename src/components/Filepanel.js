@@ -28,6 +28,10 @@ class Filepanel extends React.Component {
     this.sub.unsubscribe();
   }
 
+  componentDidUpdate() {
+    this._input.focus();
+  }
+
   onChange(e){
     let value = e.target.value;
     this.setState({
@@ -55,7 +59,7 @@ class Filepanel extends React.Component {
         this.props.updateContent();
         this.setState({
           folderForm: "none",
-          folderName: "",
+          folderName: ""
          });
       })
   }
@@ -66,7 +70,10 @@ class Filepanel extends React.Component {
     if (this.state.folderForm === "none") {
       this.setState({ folderForm: "block" });
     }else{
-      this.setState({ folderForm: "none" });
+      this.setState({
+        folderForm: "none",
+        folderName: ""
+      });
     }
   }
 
@@ -84,8 +91,19 @@ class Filepanel extends React.Component {
             </form>
           </li>
           <li onClick={ this.showForm }>Create new folder</li>
-          <form className={ this.state.folderForm === "block" ? "uploadFormBlock" : "uploadFormNone" } onSubmit={ this.createNewFolder }>
-            <input type="text" name="folderName" className="uploadInput" placeholder="Folder name..." value={ this.state.folderName } onChange={ this.onChange }/>
+          <form
+            className={ this.state.folderForm === "block" ? "uploadFormBlock" : "uploadFormNone" }
+            onSubmit={ this.createNewFolder }
+          >
+            <input
+              type="text"
+              name="folderName"
+              className="uploadInput"
+              placeholder="Folder name..."
+              value={ this.state.folderName }
+              onChange={ this.onChange }
+              ref={ c => (this._input = c) }
+            />
             <input type="submit" className="uploadSubmit"/>
           </form>
         </ul>
