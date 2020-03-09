@@ -85,17 +85,19 @@ class FolderPicker extends React.Component {
   render() {
     return (
       <div className='dropdown'>
-        <button ref='dropBtn' onClick={ this.showMenu }><p>...</p></button>
-        { this.state.showMenu ? (
-          <div className='dropdown-menu'>
-          { this.state.folderArr.map((folder, index) => {
-            return <button
-              onClick={ () => this.onClick(folder.path) }
-              key={ 'folder-btn-' + index }>{ folder.name }</button>
-          }) }
-          </div>
-          ): null
-        }
+        <div className='drop-inner' style={{ display: "inline-block "}}>
+          <button ref='dropBtn' onClick={ this.showMenu }><p>...</p></button>
+          { this.state.showMenu ? (
+            <div className='dropdown-menu'>
+            { this.state.folderArr.map((folder, index) => {
+              return <button
+                onClick={ () => this.onClick(folder.path) }
+                key={ 'folder-btn-' + index }>{ folder.name }</button>
+            }) }
+            </div>
+            ): null
+          }
+        </div>
       </div>
     );
   }

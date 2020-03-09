@@ -2,6 +2,8 @@ import React from 'react';
 import { Dropbox } from 'dropbox';
 import { token$ } from '../store.js';
 
+import Starred from './Starred.js';
+
 class Filepanel extends React.Component {
   constructor(props) {
     super(props)
@@ -18,6 +20,7 @@ class Filepanel extends React.Component {
     this.createNewFolder = this.createNewFolder.bind(this);
     this.onChange = this.onChange.bind(this);
     this.showForm = this.showForm.bind(this);
+    this.closeForm = this.closeForm.bind(this);
   }
 
   componentDidMount() {
@@ -45,18 +48,20 @@ class Filepanel extends React.Component {
 
     dbx.filesUpload({ path: this.props.path + "/" + e.target.files[0].name, contents: e.target.files[0] })
      .then(() => {
-       this.props.updateContent();
+       this.props.updateContent(true);
      })
   }
 
   createNewFolder(e) {
     e.preventDefault();
-    console.log(this.props.path);
+
+    if (this.state.folderName === '') return;
+
     let dbx = new Dropbox({ fetch, accessToken: this.state.token });
 
     dbx.filesCreateFolderV2({ path: this.props.path + "/" + this.state.folderName })
       .then(() => {
-        this.props.updateContent();
+        this.props.updateContent(true);
         this.setState({
           folderForm: "none",
           folderName: ""
@@ -68,21 +73,41 @@ class Filepanel extends React.Component {
     e.preventDefault();
 
     if (this.state.folderForm === "none") {
-      this.setState({ folderForm: "block" });
+      this.setState({ folderForm: "block" }, () => {
+        document.addEventListener('click', this.closeForm);
+      });
     }else{
       this.setState({
         folderForm: "none",
         folderName: ""
+      }, () => {
+        document.removeEventListener('click', this.closeForm);
       });
     }
+  }
+
+  closeForm(e) {
+    if(e.target.className === 'uploadInput' || e.target.className === 'uploadSubmit') {
+      return;
+    }
+
+    this.setState({
+      folderForm: "none",
+      folderName: ""
+    }, () => {
+      document.removeEventListener('click', this.closeForm);
+    });
   }
 
   render() {
     return (
       <div className='filepanel'>
-        <div className='preview-box'>
-          <p>Preview</p>
-        </div>
+        <h3>Starred</h3>
+        <Starred
+          path={ this.props.path }
+          rowOnClick={ this.props.rowOnClick }
+          unUpdateContent={ this.props.updateContent }
+        />
         <ul>
           <li>
             <form>

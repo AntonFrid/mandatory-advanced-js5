@@ -81,8 +81,8 @@ class Header extends React.Component {
                 return (
                   <React.Fragment key={ 'heirarchy-' + index }>
                   { path !== '' ? <h2>{ '>' }</h2>: null}
-                  <h2 onClick={ () => this.hierarchyClick(index) }>
-                    { path === '' ? 'Home': path.replace('%20', ' ') }
+                  <h2 className='ellipsis' onClick={ () => this.hierarchyClick(index) }>
+                    { path === '' ? 'Home': path.replace(/%20/g, ' ') }
                   </h2>
                   </React.Fragment>
                 )

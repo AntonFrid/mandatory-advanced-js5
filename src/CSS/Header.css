@@ -23,6 +23,13 @@
   cursor: pointer;
 }
 
+.titleWrap .ellipsis {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 220px;
+}
+
 .searchWrap{
   height: 100%;
   display: flex;

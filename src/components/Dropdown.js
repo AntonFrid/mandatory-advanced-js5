@@ -82,6 +82,7 @@ class Dropdown extends React.Component {
   render() {
     return (
       <div className='dropdown'>
+        <div className='drop-inner' style={{ display: "inline-block "}}>
         <button ref='dropBtn' onClick={ this.showMenu }><p>...</p></button>
         { this.state.showMenu ? (
           <div className='dropdown-menu'>
@@ -93,6 +94,7 @@ class Dropdown extends React.Component {
           </div>
           ): null
         }
+        </div>
       </div>
     );
   }

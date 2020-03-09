@@ -45,8 +45,8 @@ class Content extends React.Component {
 
   }
 
-  componentDidUpdate(prevProps) {
-    if(this.props.starredArray !== prevProps.starredArray){
+  componentDidUpdate(prevProps, prevState) {
+    if(this.state.starredArray !== prevState.starredArray){
       this.getThumb(this.state.starredArray);
     }
 
@@ -73,7 +73,7 @@ class Content extends React.Component {
     })
 
     removeFavorite(id);
-    this.props.updateContent();
+    this.props.unUpdateContent(true);
   }
 
   onMove(id, file) {
@@ -125,10 +125,10 @@ class Content extends React.Component {
     let pathArr = [];
 
     for (let i = 0; i < files.length; i++) {
-      pathArr.push({ path: files[i].path_lower });
+      pathArr.push({ path: files[i].path_lower, size: 'w32h32' });
     }
 
-    dbx.filesGetThumbnailBatch({ entries: pathArr })
+    dbx.filesGetThumbnailBatch({ entries: pathArr,  })
       .then(res => {
         const th = {};
 
@@ -157,23 +157,25 @@ class Content extends React.Component {
         id,
         name,
         path_lower,
-        server_modified,
-        size
+        path_display
       } = object;
 
       const tag = object[".tag"];
 
       return (
         <tr key={ id }>
-          <td onClick = {() => toggleFavorite(object)} style = {{fontSize: '24px', color: '#7289da'}}>
+          <td onClick = {() => toggleFavorite(object)} style = {{fontSize: '18px', color: '#7289da'}}>
             {this.state.starredArray.find(x => x.id === object.id) ? "★" : "✩"}
           </td>
           <td>{ this.state.thumbnails[id]
             ? <img alt='file' src={ 'data:image/jpg;base64,' + this.state.thumbnails[id] }/>
-            : (tag !== 'folder' ? "file" : 'folder') }</td>
-          <td onClick={ () => this.props.rowOnClick(path_lower, tag) }>{ name }</td>
-          <td>{ server_modified ? server_modified.replace('T', ' ').replace('Z', ''): null }</td>
-          <td>{ tag !== 'folder' ? this.bytesToSize(size): null }</td>
+            : (
+                tag !== 'folder'
+                ? <img src="/media/file-icon.svg" alt="icon" className="icon"/>
+                : <img src="/media/folder-icon.svg" alt="icon" className="icon"/>
+              )
+          }</td>
+          <td className='ellipsis' onClick={ () => this.props.rowOnClick(path_display, tag) }>{ name }</td>
           <td><Dropdown
             fileAtt={ {
               id: id,
@@ -194,15 +196,12 @@ class Content extends React.Component {
   render() {
     return (
       <div className='starredContent'>
-        <h1 className = 'starredTitle'>Starred Content</h1>
         <table>
           <thead>
             <tr>
               <th></th>
-              <th>Type</th>
-              <th>Name</th>
-              <th>Modified</th>
-              <th>Size</th>
+              <th></th>
+              <th></th>
             </tr>
           </thead>
           <tbody>

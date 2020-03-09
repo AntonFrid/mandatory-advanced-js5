@@ -1,4 +1,4 @@
-.dropdown > button {
+.dropdown > .drop-inner > button {
   background: none;
   border: none;
   border: 1px solid white;
@@ -13,26 +13,31 @@
   transition: 0.10s;
 }
 
-.dropdown > button > p {
+.dropdown > .drop-inner > button > p {
   font-size: 25px;
   margin-top: -14px;
   font-weight: 300;
 }
 
-.dropdown > button:hover {
+.dropdown > .drop-inner > button:hover {
   border: 2px solid #7289da;
   transition: 0.10s;
   cursor: pointer;
 }
 
-.dropdown > button:focus {
+.dropdown > .drop-inner > button:focus {
   border: 2px solid #7289da;
   color: #7289da;
   transition: 0.10s;
 }
 
+.drop-inner {
+  position: relative;
+}
+
 .dropdown-menu {
   min-width: 75px;
+  max-width: 75px;
   background-color: #23272a;
   border: 1px solid #7289da;
   border-radius: 5px;
@@ -40,6 +45,8 @@
   margin-top: 2px;
   position: absolute;
   z-index: 1;
+  top: -2px;
+  left: -78px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -50,10 +57,14 @@
   border: none;
   color: white;
   padding: 2px 4px;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
 }
 
 .dropdown-menu > button:hover {
   color: #99aab5;
-  transition: 0.03s;
   cursor: pointer;
+  outline: none;
 }

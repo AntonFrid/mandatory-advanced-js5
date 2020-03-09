@@ -43,19 +43,18 @@ class Content extends React.Component {
       token$.subscribe((token) => this.setState({ token })),
       starredArray$.subscribe((starredArray) => this.setState({ starredArray })),
     ];
-
-    dbx.filesListFolder({ path: window.location.pathname.replace('/main', '').replace('%20', ' ') })
+    
+    dbx.filesListFolder({ path: window.location.pathname.replace('/main', '').replace(/%20/g, ' ') })
       .then(response => {
         this.getThumb(response.entries);
         this.setState({ userFiles: response.entries })
       });
 
     this.polling = setInterval(() => {
-      dbx.filesListFolder({ path: window.location.pathname.replace('/main', '').replace('%20', ' ') })
+      dbx.filesListFolder({ path: window.location.pathname.replace('/main', '').replace(/%20/g, ' ') })
         .then(response => {
           this.getThumb(response.entries);
           this.setState({ userFiles: response.entries })
-          console.log('polling update');
         });
     }, 20 * sec);
   }
@@ -65,7 +64,7 @@ class Content extends React.Component {
     if(this.props.shouldIUpdate){
       let dbx = new Dropbox({ fetch, accessToken: this.state.token });
 
-      dbx.filesListFolder({ path: window.location.pathname.replace('/main', '').replace('%20', ' ') })
+      dbx.filesListFolder({ path: window.location.pathname.replace('/main', '').replace(/%20/g, ' ') })
         .then(response => {
           this.getThumb(response.entries);
           this.setState({ userFiles: response.entries })
@@ -78,7 +77,7 @@ class Content extends React.Component {
     if(prevProps.path !== this.props.path){
       let dbx = new Dropbox({ fetch, accessToken: this.state.token });
 
-      dbx.filesListFolder({ path: window.location.pathname.replace('/main', '').replace('%20', ' ') })
+      dbx.filesListFolder({ path: window.location.pathname.replace('/main', '').replace(/%20/g, ' ') })
         .then(response => {
           this.getThumb(response.entries);
           this.setState({ userFiles: response.entries })
@@ -148,7 +147,7 @@ class Content extends React.Component {
     let pathArr = [];
 
     for (let i = 0; i < files.length; i++) {
-      pathArr.push({ path: files[i].path_lower });
+      pathArr.push({ path: files[i].path_lower, size: 'w64h64' });
     }
 
     dbx.filesGetThumbnailBatch({ entries: pathArr })
@@ -182,6 +181,7 @@ class Content extends React.Component {
         id,
         name,
         path_lower,
+        path_display,
         server_modified,
         size
       } = object;
@@ -201,7 +201,12 @@ class Content extends React.Component {
                 : <img src="/media/folder-icon.svg" alt="icon" className="icon"/>
               )
           }</td>
-          <td onClick={ () => this.props.rowOnClick(path_lower, tag) }>{ name }</td>
+          <td
+            className='ellipsis'
+            onClick={ () => this.props.rowOnClick(path_display, tag) }
+          >
+            { name }
+          </td>
           <td>{ server_modified ? server_modified.replace('T', ' ').replace('Z', ''): null }</td>
           <td>{ tag !== 'folder' ? this.bytesToSize(size): null }</td>
           <td><Dropdown

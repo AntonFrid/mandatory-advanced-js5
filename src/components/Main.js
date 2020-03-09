@@ -8,7 +8,6 @@ import Header from './Header.js';
 import Filepanel from './Filepanel.js';
 import Menupanel from './Menupanel.js';
 import Search from './Search.js';
-import Starred from './Starred.js';
 
 class Main extends React.Component {
   constructor(props) {
@@ -98,28 +97,18 @@ class Main extends React.Component {
                   shouldIUpdate={ this.state.updateSearch }
                   unUpdateSearch={ this.updateSearch }
                 />
-              :
-              <div className = 'contentContainer'>
-                <Starred
-                  path={ this.state.path }
-                  searchInput={ this.state.searchInput }
-                  rowOnClick={ this.changePath }
-                  shouldIUpdate={ this.state.updateContent }
-                  updateContent={ this.updateContent }
-                />
-              <Content
+              : <Content
                   path={ this.state.path }
                   searchInput={ this.state.searchInput }
                   rowOnClick={ this.changePath }
                   shouldIUpdate={ this.state.updateContent }
                   unUpdateContent={ this.updateContent }
                 />
-              </div>
-
             }
             <Filepanel
               updateContent={ this.updateContent }
               path={ this.state.path }
+              rowOnClick={ this.changePath }
             />
 
           </div>
