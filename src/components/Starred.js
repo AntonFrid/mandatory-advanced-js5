@@ -35,7 +35,6 @@ class Content extends React.Component {
   }
 
   componentDidMount() {
-    let dbx = new Dropbox({ fetch, accessToken: this.state.token });
 
     this.subscriptions = [
       token$.subscribe((token) => this.setState({ token })),
@@ -48,7 +47,10 @@ class Content extends React.Component {
 
   componentDidUpdate(prevProps) {
     if(this.props.starredArray !== prevProps.starredArray){
-      console.log('starred prop changed');
+      this.getThumb(this.state.starredArray);
+    }
+
+    if(prevProps.path !== this.props.path){
       this.getThumb(this.state.starredArray);
     }
   }
@@ -74,9 +76,10 @@ class Content extends React.Component {
     this.props.updateContent();
   }
 
-  onMove() {
+  onMove(id, file) {
     this.setState({ fileToMove: null });
-    this.props.updateContent()
+    this.props.unUpdateContent(true)
+    updateFavorite(file);
   }
 
   onMovePop(id, name, path) {
@@ -85,7 +88,7 @@ class Content extends React.Component {
 
   onCopy() {
     this.setState({ fileToCopy: null });
-    this.props.updateContent();
+    this.props.unUpdateContent(true);
   }
 
   onCopyPop(id, name, path) {
@@ -103,6 +106,7 @@ class Content extends React.Component {
 
   onRename(id, file) {
     this.setState({ fileToRename: null });
+    this.props.unUpdateContent(true);
     updateFavorite(file);
   }
 

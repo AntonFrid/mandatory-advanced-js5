@@ -61,13 +61,8 @@ class Main extends React.Component {
     this.setState({ searchState: false });
   }
 
-  updateContent() {
-    if(!this.state.updateContent){
-      this.setState({ updateContent: true });
-    }
-    else {
-      this.setState({ updateContent: false });
-    }
+  updateContent(value) {
+      this.setState({ updateContent: value });
   }
 
   updateSearch() {
