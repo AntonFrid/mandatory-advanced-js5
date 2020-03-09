@@ -36,8 +36,8 @@ class MovePopUp extends React.Component {
       to_path: this.state.pathTo + '/' + this.props.fileToMove.name,
       autorename: true
     })
-      .then(() => {
-        this.props.onMove();
+      .then((response) => {
+        this.props.onMove(this.props.fileToMove.id, response);
       })
   }
 

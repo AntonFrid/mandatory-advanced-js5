@@ -60,16 +60,20 @@ class Content extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
+
     if(this.props.shouldIUpdate){
+      console.log("FETCH");
       let dbx = new Dropbox({ fetch, accessToken: this.state.token });
 
       dbx.filesListFolder({ path: window.location.pathname.replace('/main', '').replace('%20', ' ') })
         .then(response => {
           this.getThumb(response.entries);
           this.setState({ userFiles: response.entries })
-          this.props.unUpdateContent();
-
         })
+        .finally(() => {
+          this.props.unUpdateContent(false);
+        })
+
     }
 
     if(prevProps.path !== this.props.path){
@@ -107,18 +111,22 @@ class Content extends React.Component {
 
     
 
-  onMove() {
+  onMove(id, file) {
+    console.log(id, file)
     this.setState({ fileToMove: null });
-    this.props.unUpdateContent();
+    this.props.unUpdateContent(true);
+    console.log(file)
+    updateFavorite(file);
+
   }
 
-  onMovePop(id, name, path) {
+  onMovePop(id, name, path,) {
     this.setState({ fileToMove: { id: id, name: name, path: path } });
   }
 
   onCopy() {
     this.setState({ fileToCopy: null });
-    this.props.unUpdateContent();
+    this.props.unUpdateContent(true);
   }
 
   onCopyPop(id, name, path) {
@@ -130,9 +138,10 @@ class Content extends React.Component {
   }
 
   onRename(id, file) {
-    this.setState({ fileToRename: null });
-    this.props.unUpdateContent();
+    console.log('on rename',this.state.fileToRename)
 
+    this.setState({ fileToRename: null });
+    this.props.unUpdateContent(true);
     updateFavorite(file);
   }
 

@@ -35,7 +35,6 @@ class Content extends React.Component {
   }
 
   componentDidMount() {
-    let dbx = new Dropbox({ fetch, accessToken: this.state.token });
 
     this.subscriptions = [
       token$.subscribe((token) => this.setState({ token })),
@@ -48,19 +47,11 @@ class Content extends React.Component {
 
   componentDidUpdate(prevProps) {
     if(this.props.starredArray !== prevProps.starredArray){
-      let dbx = new Dropbox({ fetch, accessToken: this.state.token });
-    
-      this.getThumb(this.state.starredArray);
-
-      
+      this.getThumb(this.state.starredArray);      
     }
 
     if(prevProps.path !== this.props.path){
-      let dbx = new Dropbox({ fetch, accessToken: this.state.token });
-
-      this.getThumb(this.state.starredArray);
-
-      
+      this.getThumb(this.state.starredArray);      
     }
     console.log('starred updated')
   }
@@ -86,9 +77,11 @@ class Content extends React.Component {
 
   }
 
-  onMove() {
+  onMove(id, file) {
     this.setState({ fileToMove: null });
-    this.props.unUpdateContent()
+    this.props.unUpdateContent(true)
+    updateFavorite(file);
+
   }
 
   onMovePop(id, name, path) {
@@ -97,7 +90,7 @@ class Content extends React.Component {
 
   onCopy() {
     this.setState({ fileToCopy: null });
-    this.props.unUpdateContent();
+    this.props.unUpdateContent(true);
   }
 
   onCopyPop(id, name, path) {
@@ -110,7 +103,7 @@ class Content extends React.Component {
 
   onRename(id, file) {
     this.setState({ fileToRename: null });
-    this.props.unUpdateContent();
+    this.props.unUpdateContent(true);
     updateFavorite(file);
 
   }
@@ -194,8 +187,6 @@ class Content extends React.Component {
 
 
   render() {
-    console.log(this.state.starredArray);
-
     return (
       <div className='starredContent'>
         <h1 className = 'starredTitle'>Starred Content</h1>
