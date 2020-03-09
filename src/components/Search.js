@@ -190,7 +190,12 @@ class Search extends React.Component {
           </td>
           <td>{ this.state.thumbnails[id]
             ? <img alt='file' src={ 'data:image/jpg;base64,' + this.state.thumbnails[id] }/>
-            : (tag !== 'folder' ? "file" : 'folder') }</td>
+            : (
+                tag !== 'folder'
+                ? <img src="/media/file-icon.svg" alt="icon" className="icon"/>
+                : <img src="/media/folder-icon.svg" alt="icon" className="icon"/>
+              )
+          }</td>
           <td onClick={ () => this.props.rowOnClick(path_lower, tag) }>{ name }</td>
           <td>{ server_modified ? server_modified.replace('T', ' ').replace('Z', ''): null }</td>
           <td>{ tag !== 'folder' ? this.bytesToSize(size): null }</td>
