@@ -62,7 +62,6 @@ class Content extends React.Component {
   componentDidUpdate(prevProps) {
 
     if(this.props.shouldIUpdate){
-      console.log("FETCH");
       let dbx = new Dropbox({ fetch, accessToken: this.state.token });
 
       dbx.filesListFolder({ path: window.location.pathname.replace('/main', '').replace('%20', ' ') })
@@ -85,7 +84,6 @@ class Content extends React.Component {
           this.setState({ userFiles: response.entries })
         });
     }
-    console.log('content updated')
   }
 
   componentWillUnmount() {
@@ -112,10 +110,8 @@ class Content extends React.Component {
     
 
   onMove(id, file) {
-    console.log(id, file)
     this.setState({ fileToMove: null });
     this.props.unUpdateContent(true);
-    console.log(file)
     updateFavorite(file);
 
   }
@@ -138,7 +134,6 @@ class Content extends React.Component {
   }
 
   onRename(id, file) {
-    console.log('on rename',this.state.fileToRename)
 
     this.setState({ fileToRename: null });
     this.props.unUpdateContent(true);

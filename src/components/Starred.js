@@ -53,7 +53,6 @@ class Content extends React.Component {
     if(prevProps.path !== this.props.path){
       this.getThumb(this.state.starredArray);      
     }
-    console.log('starred updated')
   }
 
   componentWillUnmount() {
