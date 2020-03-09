@@ -74,11 +74,13 @@ class Content extends React.Component {
 
     removeFavorite(id);
     this.props.unUpdateContent(true);
+    this.props.updateSearch(true);
   }
 
   onMove(id, file) {
     this.setState({ fileToMove: null });
-    this.props.unUpdateContent(true)
+    this.props.unUpdateContent(true);
+    this.props.updateSearch(true);
     updateFavorite(file);
   }
 
@@ -89,6 +91,7 @@ class Content extends React.Component {
   onCopy() {
     this.setState({ fileToCopy: null });
     this.props.unUpdateContent(true);
+    this.props.updateSearch(true);
   }
 
   onCopyPop(id, name, path) {
@@ -107,6 +110,7 @@ class Content extends React.Component {
   onRename(id, file) {
     this.setState({ fileToRename: null });
     this.props.unUpdateContent(true);
+    this.props.updateSearch(true);
     updateFavorite(file);
   }
 

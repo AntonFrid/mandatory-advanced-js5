@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dropbox } from 'dropbox';
-import { token$ } from '../store.js';
+import { token$, toggleFavorite, removeFavorite, updateFavorite, starredArray$ } from '../store.js';
 
 import DeletePopUp from './DeletePopUp.js';
 import MovePopUp from './MovePopUp.js';
@@ -19,7 +19,9 @@ class Search extends React.Component {
       fileToDelete: null,
       fileToMove: null,
       fileToRename: null,
-      fileToCopy: null  });
+      fileToCopy: null,
+      starredArray: starredArray$.value
+    });
 
     this.renderTableData = this.renderTableData.bind(this);
     this.onDeletePop = this.onDeletePop.bind(this);
@@ -35,7 +37,10 @@ class Search extends React.Component {
   componentDidMount() {
     let sec = 1000;
 
-    this.sub = token$.subscribe((token) => this.setState({ token }));
+    this.subscriptions = [
+      token$.subscribe((token) => this.setState({ token })),
+      starredArray$.subscribe((starredArray) => this.setState({ starredArray })),
+    ];
 
     let dbx = new Dropbox({ fetch, accessToken: this.state.token });
 
@@ -60,10 +65,12 @@ class Search extends React.Component {
 
       dbx.filesSearch({ path: "", query: this.props.searchInput })
         .then(res => {
-          this.props.unUpdateSearch();
           this.getThumb(res.matches.map(x => x.metadata));
           this.setState({ userFiles: res.matches.map(x => x.metadata) });
-        });
+        })
+        .finally(() => {
+          this.props.unUpdateSearch(false);
+        })
     }
 
     if (this.props.searchInput !== prevProps.searchInput ) {
@@ -78,7 +85,7 @@ class Search extends React.Component {
   }
 
   componentWillUnmount() {
-    this.sub.unsubscribe();
+    this.subscriptions.forEach((sub) => sub.unsubscribe());
     clearInterval(this.polling);
   }
 
@@ -93,11 +100,14 @@ class Search extends React.Component {
       }),
       fileToDelete: null
     })
+
+    removeFavorite(id)
   }
 
-  onMove() {
+  onMove(id, file) {
     this.setState({ fileToMove: null });
-    this.props.unUpdateSearch();
+    this.props.unUpdateSearch(true);
+    updateFavorite(file);
   }
 
   onMovePop(id, name, path) {
@@ -106,20 +116,21 @@ class Search extends React.Component {
 
   onCopy() {
     this.setState({ fileToCopy: null });
-    this.props.unUpdateSearch();
+    this.props.unUpdateSearch(true);
   }
 
   onCopyPop(id, name, path) {
     this.setState({ fileToCopy: { id: id, name: name,  path: path } })
   }
 
-  onRenamePop(id, name, path) {
-    this.setState({ fileToRename: { id: id, name: name, path: path } })
+  onRenamePop(id, name, path, tag) {
+    this.setState({ fileToRename: { id: id, name: name, path: path, tag: tag } })
   }
 
-  onRename() {
+  onRename(id, file) {
     this.setState({ fileToRename: null });
-    this.props.unUpdateSearch();
+    this.props.unUpdateSearch(true);
+    updateFavorite(file);
   }
 
   closePopUp() {
@@ -174,6 +185,9 @@ class Search extends React.Component {
 
       return (
         <tr key={ id }>
+          <td onClick = {() => toggleFavorite(object)} style = {{fontSize: '24px', color: '#7289da'}}>
+            {this.state.starredArray.find(x => x.id === object.id) ? "★" : "✩"}
+          </td>
           <td>{ this.state.thumbnails[id]
             ? <img alt='file' src={ 'data:image/jpg;base64,' + this.state.thumbnails[id] }/>
             : (tag !== 'folder' ? "file" : 'folder') }</td>
@@ -188,7 +202,7 @@ class Search extends React.Component {
             } }
             onDelete={ () => this.onDeletePop(id, name, path_lower) }
             onMove={ () => this.onMovePop(id, name, path_lower) }
-            onRename={ () => this.onRenamePop(id, name, path_lower) }
+            onRename={ () => this.onRenamePop(id, name, path_lower, tag) }
             onCopy={ () => this.onCopyPop(id, name, path_lower) }
           /></td>
         </tr>
@@ -203,7 +217,8 @@ class Search extends React.Component {
         <table>
           <thead>
             <tr>
-              <th>Type</th>
+              <th></th>
+              <th></th>
               <th>Name</th>
               <th>Modified</th>
               <th>Size</th>

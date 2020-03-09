@@ -43,7 +43,7 @@ class Content extends React.Component {
       token$.subscribe((token) => this.setState({ token })),
       starredArray$.subscribe((starredArray) => this.setState({ starredArray })),
     ];
-    
+
     dbx.filesListFolder({ path: window.location.pathname.replace('/main', '').replace(/%20/g, ' ') })
       .then(response => {
         this.getThumb(response.entries);

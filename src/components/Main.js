@@ -61,16 +61,11 @@ class Main extends React.Component {
   }
 
   updateContent(value) {
-      this.setState({ updateContent: value });
+    this.setState({ updateContent: value });
   }
 
-  updateSearch() {
-    if(!this.state.updateSearch){
-      this.setState({ updateSearch: true });
-    }
-    else {
-      this.setState({ updateSearch: false });
-    }
+  updateSearch(value) {
+    this.setState({ updateSearch: value });
   }
 
   render() {
@@ -107,6 +102,7 @@ class Main extends React.Component {
             }
             <Filepanel
               updateContent={ this.updateContent }
+              updateSearch={ this.updateSearch }
               path={ this.state.path }
               rowOnClick={ this.changePath }
             />

@@ -107,6 +107,7 @@ class Filepanel extends React.Component {
           path={ this.props.path }
           rowOnClick={ this.props.rowOnClick }
           unUpdateContent={ this.props.updateContent }
+          updateSearch={ this.props.updateSearch }
         />
         <ul>
           <li>
