@@ -22,7 +22,7 @@ export function toggleFavorite(file) {
   if (starredArray$.value.find(x => x.id === file.id)) {
     newStarredArray = starredArray$.value.filter(x => x.id !== file.id);
   } else {
-    newStarredArray = [...starredArray$.value, file];  
+    newStarredArray = [...starredArray$.value, file];
   }
 
   localStorage.setItem('starredArray', JSON.stringify(newStarredArray));
@@ -40,8 +40,6 @@ export function clearStorage(){
   let newStarredArray = [];
   localStorage.setItem('starredArray', JSON.stringify(newStarredArray));
   starredArray$.next(newStarredArray);
-
-
 }
 
 export function updateFavorite(file) {
@@ -54,5 +52,4 @@ export function updateFavorite(file) {
     localStorage.setItem('starredArray', JSON.stringify(newStarredArray));
     starredArray$.next(newStarredArray);
   }
-
 }

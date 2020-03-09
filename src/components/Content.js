@@ -55,6 +55,7 @@ class Content extends React.Component {
         .then(response => {
           this.getThumb(response.entries);
           this.setState({ userFiles: response.entries })
+          console.log('polling update');
         });
     }, 20 * sec);
   }
@@ -67,9 +68,10 @@ class Content extends React.Component {
         .then(response => {
           this.getThumb(response.entries);
           this.setState({ userFiles: response.entries })
-          this.props.unUpdateContent();
+          console.log('didUpdate');
+        });
 
-        })
+      this.props.unUpdateContent();
     }
 
     if(prevProps.path !== this.props.path){
@@ -85,7 +87,6 @@ class Content extends React.Component {
 
   componentWillUnmount() {
     clearInterval(this.polling);
-
     this.subscriptions.forEach((sub) => sub.unsubscribe());
   }
 
@@ -101,6 +102,7 @@ class Content extends React.Component {
       }),
       fileToDelete: null
     })
+
     removeFavorite(id)
   }
 
@@ -108,7 +110,7 @@ class Content extends React.Component {
 
   onMove() {
     this.setState({ fileToMove: null });
-    this.props.unUpdateContent();
+    this.props.unUpdateContent()
   }
 
   onMovePop(id, name, path) {
@@ -117,7 +119,7 @@ class Content extends React.Component {
 
   onCopy() {
     this.setState({ fileToCopy: null });
-    this.props.unUpdateContent();
+    this.props.unUpdateContent()
   }
 
   onCopyPop(id, name, path) {
@@ -130,8 +132,7 @@ class Content extends React.Component {
 
   onRename(id, file) {
     this.setState({ fileToRename: null });
-    this.props.unUpdateContent();
-
+    this.props.unUpdateContent()
     updateFavorite(file);
   }
 
@@ -219,7 +220,6 @@ class Content extends React.Component {
 
 
   render() {
-
     return (
       <div className='content'>
         <table>

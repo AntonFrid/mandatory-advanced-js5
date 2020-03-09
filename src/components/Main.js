@@ -104,14 +104,13 @@ class Main extends React.Component {
                   unUpdateSearch={ this.updateSearch }
                 />
               :
-              <div className = 'contentContainer'> 
+              <div className = 'contentContainer'>
                 <Starred
                   path={ this.state.path }
                   searchInput={ this.state.searchInput }
                   rowOnClick={ this.changePath }
                   shouldIUpdate={ this.state.updateContent }
                   updateContent={ this.updateContent }
-                  unUpdateContent={ this.updateContent }
                 />
               <Content
                   path={ this.state.path }
@@ -121,7 +120,7 @@ class Main extends React.Component {
                   unUpdateContent={ this.updateContent }
                 />
               </div>
-              
+
             }
             <Filepanel
               updateContent={ this.updateContent }

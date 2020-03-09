@@ -48,19 +48,8 @@ class Content extends React.Component {
 
   componentDidUpdate(prevProps) {
     if(this.props.starredArray !== prevProps.starredArray){
-      let dbx = new Dropbox({ fetch, accessToken: this.state.token });
-
+      console.log('starred prop changed');
       this.getThumb(this.state.starredArray);
-
-
-    }
-
-    if(prevProps.path !== this.props.path){
-      let dbx = new Dropbox({ fetch, accessToken: this.state.token });
-
-      this.getThumb(this.state.starredArray);
-
-
     }
   }
 
@@ -80,14 +69,14 @@ class Content extends React.Component {
       }),
       fileToDelete: null
     })
+
     removeFavorite(id);
     this.props.updateContent();
-
   }
 
   onMove() {
     this.setState({ fileToMove: null });
-    this.props.unUpdateContent()
+    this.props.updateContent()
   }
 
   onMovePop(id, name, path) {
@@ -96,7 +85,7 @@ class Content extends React.Component {
 
   onCopy() {
     this.setState({ fileToCopy: null });
-    this.props.unUpdateContent();
+    this.props.updateContent();
   }
 
   onCopyPop(id, name, path) {
@@ -104,18 +93,26 @@ class Content extends React.Component {
   }
 
   onRenamePop(id, name, path, tag) {
-    this.setState({ fileToRename: { id: id, name: name, path: path, tag: tag } })
+    this.setState({ fileToRename: {
+      id: id,
+      name: name,
+      path: path,
+      tag: tag
+    } })
   }
 
   onRename(id, file) {
     this.setState({ fileToRename: null });
-    this.props.unUpdateContent();
     updateFavorite(file);
-
   }
 
   closePopUp() {
-    this.setState({ fileToDelete: null, fileToMove: null });
+    this.setState({
+      fileToDelete: null,
+      fileToMove: null,
+      fileToRename: null,
+      fileToCopy: null
+    });
   }
 
   getThumb(files) {
@@ -129,11 +126,9 @@ class Content extends React.Component {
 
     dbx.filesGetThumbnailBatch({ entries: pathArr })
       .then(res => {
-
         const th = {};
 
-        res.entries
-          .filter(x => x[".tag"] === "success")
+        res.entries.filter(x => x[".tag"] === "success")
           .forEach((entry) => {
             th[entry.metadata.id] = entry.thumbnail;
           });
@@ -193,8 +188,6 @@ class Content extends React.Component {
 
 
   render() {
-    console.log(this.state.starredArray);
-
     return (
       <div className='starredContent'>
         <h1 className = 'starredTitle'>Starred Content</h1>
