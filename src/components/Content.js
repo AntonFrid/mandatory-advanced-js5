@@ -48,9 +48,6 @@ class Content extends React.Component {
       .then(response => {
         this.getThumb(response.entries);
         this.setState({ userFiles: response.entries })
-      })
-      .catch(() => {
-        this.props.rowOnClick('', 'folder');
       });
 
     this.polling = setInterval(() => {
