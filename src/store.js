@@ -44,11 +44,10 @@ export function clearStorage(){
 
 export function updateFavorite(file) {
   const newStarredArray = [...starredArray$.value];
-
-  const idx = newStarredArray.findIndex(x => x.id === file.metadata.id);
+  const idx = newStarredArray.findIndex(x => x.id === file.id);
 
   if (idx >= 0) {
-    newStarredArray[idx] = file.metadata;
+    newStarredArray[idx] = file;
     localStorage.setItem('starredArray', JSON.stringify(newStarredArray));
     starredArray$.next(newStarredArray);
   }

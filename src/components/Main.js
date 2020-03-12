@@ -1,6 +1,7 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
-import { token$ } from '../store.js';
+import { token$, updateFavorite } from '../store.js';
+import { Dropbox } from 'dropbox';
 
 //Components.
 import Content from './Content.js';
@@ -28,6 +29,7 @@ class Main extends React.Component {
     this.closeSearch = this.closeSearch.bind(this);
     this.updateContent = this.updateContent.bind(this);
     this.updateSearch = this.updateSearch.bind(this);
+    this.checkIfUpdateStar = this.checkIfUpdateStar.bind(this);
   }
 
   componentDidMount() {
@@ -68,6 +70,20 @@ class Main extends React.Component {
     this.setState({ updateSearch: value });
   }
 
+  checkIfUpdateStar(item) {
+    let dbx = new Dropbox({ fetch, accessToken: this.state.token });
+
+    if(item[".tag"] === 'file') return;
+
+    dbx.filesListFolder({ path: item.path_display })
+      .then(response => {
+        for(let i = 0; i < response.entries.length; i++) {
+          updateFavorite(response.entries[i])
+          this.checkIfUpdateStar(response.entries[i])
+        }
+      });
+  }
+
   render() {
     if(!this.state.token) {
       return <Redirect to='/'/>
@@ -91,6 +107,7 @@ class Main extends React.Component {
                   rowOnClick={ this.changePath }
                   shouldIUpdate={ this.state.updateSearch }
                   unUpdateSearch={ this.updateSearch }
+                  checkIfUpdateStar={ this.checkIfUpdateStar }
                 />
               : <Content
                   path={ this.state.path }
@@ -98,6 +115,7 @@ class Main extends React.Component {
                   rowOnClick={ this.changePath }
                   shouldIUpdate={ this.state.updateContent }
                   unUpdateContent={ this.updateContent }
+                  checkIfUpdateStar={ this.checkIfUpdateStar }
                 />
             }
             <Filepanel
@@ -105,6 +123,7 @@ class Main extends React.Component {
               updateSearch={ this.updateSearch }
               path={ this.state.path }
               rowOnClick={ this.changePath }
+              checkIfUpdateStar={ this.checkIfUpdateStar }
             />
 
           </div>

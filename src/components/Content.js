@@ -69,6 +69,9 @@ class Content extends React.Component {
           this.getThumb(response.entries);
           this.setState({ userFiles: response.entries })
         })
+        .catch(() => {
+          this.props.rowOnClick('', 'folder');
+        })
         .finally(() => {
           this.props.unUpdateContent(false);
         })
@@ -81,6 +84,9 @@ class Content extends React.Component {
         .then(response => {
           this.getThumb(response.entries);
           this.setState({ userFiles: response.entries })
+        })
+        .catch(() => {
+          this.props.rowOnClick('', 'folder');
         });
     }
   }
@@ -111,7 +117,8 @@ class Content extends React.Component {
   onMove(id, file) {
     this.setState({ fileToMove: null });
     this.props.unUpdateContent(true);
-    updateFavorite(file);
+    updateFavorite(file.metadata);
+    this.props.checkIfUpdateStar(file.metadata);
   }
 
   onMovePop(id, name, path,) {
@@ -134,7 +141,8 @@ class Content extends React.Component {
   onRename(id, file) {
     this.setState({ fileToRename: null });
     this.props.unUpdateContent(true);
-    updateFavorite(file);
+    updateFavorite(file.metadata);
+    this.props.checkIfUpdateStar(file.metadata);
   }
 
   closePopUp() {

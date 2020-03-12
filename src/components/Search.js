@@ -107,7 +107,8 @@ class Search extends React.Component {
   onMove(id, file) {
     this.setState({ fileToMove: null });
     this.props.unUpdateSearch(true);
-    updateFavorite(file);
+    updateFavorite(file.metadata);
+    this.props.checkIfUpdateStar(file.metadata);
   }
 
   onMovePop(id, name, path) {
@@ -130,7 +131,8 @@ class Search extends React.Component {
   onRename(id, file) {
     this.setState({ fileToRename: null });
     this.props.unUpdateSearch(true);
-    updateFavorite(file);
+    updateFavorite(file.metadata);
+    this.props.checkIfUpdateStar(file.metadata);
   }
 
   closePopUp() {

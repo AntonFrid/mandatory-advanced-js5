@@ -81,7 +81,8 @@ class Content extends React.Component {
     this.setState({ fileToMove: null });
     this.props.unUpdateContent(true);
     this.props.updateSearch(true);
-    updateFavorite(file);
+    updateFavorite(file.metadata);
+    this.props.checkIfUpdateStar(file.metadata);
   }
 
   onMovePop(id, name, path) {
@@ -111,7 +112,8 @@ class Content extends React.Component {
     this.setState({ fileToRename: null });
     this.props.unUpdateContent(true);
     this.props.updateSearch(true);
-    updateFavorite(file);
+    updateFavorite(file.metadata);
+    this.props.checkIfUpdateStar(file.metadata);
   }
 
   closePopUp() {
