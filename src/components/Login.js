@@ -6,7 +6,7 @@ export class Login extends Component {
   onClick() {
     const dbx = new Dropbox ({ fetch, clientId: 'nde773rwdsvw6mc' });
 
-    const url = dbx.getAuthenticationUrl("http://localhost:3000/auth");
+    const url = dbx.getAuthenticationUrl("https://dellgang-dropbox.surge.sh/auth");
 
     window.location.href = url;
   }
